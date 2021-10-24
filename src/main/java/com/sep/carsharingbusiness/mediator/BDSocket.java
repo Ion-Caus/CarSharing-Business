@@ -1,10 +1,12 @@
 package com.sep.carsharingbusiness.mediator;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
+import com.sep.carsharingbusiness.model.Listing;
 import com.sep.carsharingbusiness.model.Vehicle;
 
 import java.io.*;
 import java.net.Socket;
+import java.time.LocalDateTime;
 
 public class BDSocket {
     public static final String HOST = "127.0.0.1";
@@ -19,14 +21,16 @@ public class BDSocket {
         this.socket = new Socket(HOST, PORT);
         this.in = socket.getInputStream();
         this.out = socket.getOutputStream();
-        this.gson = new Gson();
+        this.gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .create();
     }
 
     public Vehicle getVehicle() throws IOException {
         // get Vehicle by licenseNo Ab 00 123
 
         //send request
-        RequestReply request = new RequestReply("GetVehicle", "String", "Ab 00 123");
+        RequestReply request = new RequestReply("GetVehicle", "String", "MK 99 222");
         String requestJson = gson.toJson(request);
         byte[] requestBytes = requestJson.getBytes();
         out.write(requestBytes, 0, requestBytes.length);
@@ -45,4 +49,47 @@ public class BDSocket {
         socket.close();
         return vehicle;
     }
+
+    public Listing getListing() throws IOException {
+        // getListing Location = Aarhus, DateFrom = 20 Oct 2021, DateTo = 30 Oct 2021
+
+        //using Calendar with Date class, because gson throws warning on LocalDateTime
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(2021, Calendar.OCTOBER, 20, 10, 45, 0);
+//        Date dateFrom = calendar.getTime();
+//        calendar.set(2021, Calendar.OCTOBER, 30, 21, 12, 0);
+//        Date dateTo = calendar.getTime();
+
+
+        //send request
+        FilterParam filterParam
+                = new FilterParam(
+                "Aarhus",
+                LocalDateTime.of(2021,10, 20, 10, 45, 0),
+                LocalDateTime.of(2021, 10, 30, 21, 12, 0)
+        );
+        RequestReply request
+                = new RequestReply(
+                        "GetListing",
+                "FilterParam",
+                gson.toJson(filterParam)
+        );
+        byte[] requestBytes = gson.toJson(request).getBytes();
+        out.write(requestBytes, 0, requestBytes.length);
+
+        //receive reply
+        byte[] replyBytes = new byte[2048];
+        int bytesRead = in.read(replyBytes,0,replyBytes.length);
+        String replyJson = new String(replyBytes,0,bytesRead);
+        RequestReply reply = gson.fromJson(replyJson, RequestReply.class);
+
+        Listing listing = null;
+        if (reply.ObjType.equals("Listing")) {
+            listing = gson.fromJson(reply.ObjJson, Listing.class);
+            System.out.println("Received from server: \n" + gson.toJson(listing));
+        }
+        socket.close();
+        return listing;
+    }
+
 }

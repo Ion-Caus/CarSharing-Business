@@ -1,6 +1,7 @@
 package com.sep.carsharingbusiness;
 
 import com.sep.carsharingbusiness.mediator.BDSocket;
+import com.sep.carsharingbusiness.model.Listing;
 import com.sep.carsharingbusiness.model.Vehicle;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,8 +15,11 @@ public class CarSharingBusinessApplication {
         SpringApplication.run(CarSharingBusinessApplication.class, args);
         try {
             BDSocket socket = new BDSocket();
-            Vehicle v = socket.getVehicle();
-            System.out.println(v.Brand + " " + v.Model + " " + v.ManufactureYear);
+//            Vehicle v = socket.getVehicle();
+//            System.out.println(v.Brand + " " + v.Model + " " + v.ManufactureYear);
+
+            Listing listing = socket.getListing();
+            System.out.println(listing.Location + " " + listing.VehicleLicenseNo);
         } catch (IOException e) {
             e.printStackTrace();
         }
