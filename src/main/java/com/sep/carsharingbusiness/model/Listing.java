@@ -10,15 +10,15 @@ public class Listing {
     public Date DateFrom;
     public Date DateTo;
 
-    public String VehicleLicenseNo;
+    public Vehicle Vehicle;
 
-    public Listing(Date listedDate, BigDecimal price, String location, Date dateFrom, Date dateTo, String vehicleLicenseNo) {
+    public Listing(Date listedDate, BigDecimal price, String location, Date dateFrom, Date dateTo, Vehicle vehicle) {
         ListedDate = listedDate;
         Price = price;
         Location = location;
         DateFrom = dateFrom;
         DateTo = dateTo;
-        VehicleLicenseNo = vehicleLicenseNo;
+        Vehicle = vehicle;
     }
 
     public Date getListedDate() {
@@ -61,11 +61,11 @@ public class Listing {
         DateTo = dateTo;
     }
 
-    public String getVehicleLicenseNo() {
-        return VehicleLicenseNo;
+    public Vehicle getVehicle() {
+        return Vehicle;
     }
 
-    public void setVehicle(String vehicleLicenseNo) {
-        VehicleLicenseNo = vehicleLicenseNo;
+    public void setVehicle(Vehicle vehicle) {
+        Vehicle = vehicle;
     }
 }

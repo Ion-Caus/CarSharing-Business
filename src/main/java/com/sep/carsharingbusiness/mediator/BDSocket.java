@@ -1,12 +1,15 @@
 package com.sep.carsharingbusiness.mediator;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import com.sep.carsharingbusiness.model.Listing;
 import com.sep.carsharingbusiness.model.Vehicle;
 
 import java.io.*;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.util.AbstractList;
+import java.util.ArrayList;
 
 public class BDSocket {
     public static final String HOST = "127.0.0.1";
@@ -50,7 +53,7 @@ public class BDSocket {
         return vehicle;
     }
 
-    public Listing getListing() throws IOException {
+    public ArrayList<Listing> getListing() throws IOException {
         // getListing Location = Aarhus, DateFrom = 20 Oct 2021, DateTo = 30 Oct 2021
 
         //using Calendar with Date class, because gson throws warning on LocalDateTime
@@ -83,13 +86,13 @@ public class BDSocket {
         String replyJson = new String(replyBytes,0,bytesRead);
         RequestReply reply = gson.fromJson(replyJson, RequestReply.class);
 
-        Listing listing = null;
+        ArrayList<Listing> listings = null;
         if (reply.ObjType.equals("Listing")) {
-            listing = gson.fromJson(reply.ObjJson, Listing.class);
-            System.out.println("Received from server: \n" + gson.toJson(listing));
+            listings = gson.fromJson(reply.ObjJson, new TypeToken<ArrayList<Listing>>(){}.getType());
+            System.out.println("Received from server: \n" + gson.toJson(listings));
         }
         socket.close();
-        return listing;
+        return listings;
     }
 
 }
