@@ -4,68 +4,68 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Listing {
-    public Date ListedDate;
-    public BigDecimal Price;
-    public String Location;
-    public Date DateFrom;
-    public Date DateTo;
+    private Date listedDate;
+    private BigDecimal price;
+    private String location;
+    private Date dateFrom;
+    private Date dateTo;
 
-    public Vehicle Vehicle;
+    public Vehicle vehicle;
 
     public Listing(Date listedDate, BigDecimal price, String location, Date dateFrom, Date dateTo, Vehicle vehicle) {
-        ListedDate = listedDate;
-        Price = price;
-        Location = location;
-        DateFrom = dateFrom;
-        DateTo = dateTo;
-        Vehicle = vehicle;
+        this.listedDate = listedDate;
+        this.price = price;
+        this.location = location;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.vehicle = vehicle;
     }
 
     public Date getListedDate() {
-        return ListedDate;
+        return listedDate;
     }
 
     public void setListedDate(Date listedDate) {
-        ListedDate = listedDate;
+        this.listedDate = listedDate;
     }
 
     public BigDecimal getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(BigDecimal price) {
-        Price = price;
+        this.price = price;
     }
 
     public String getLocation() {
-        return Location;
+        return location;
     }
 
     public void setLocation(String location) {
-        Location = location;
+        this.location = location;
     }
 
     public Date getDateFrom() {
-        return DateFrom;
+        return dateFrom;
     }
 
     public void setDateFrom(Date dateFrom) {
-        DateFrom = dateFrom;
+        this.dateFrom = dateFrom;
     }
 
     public Date getDateTo() {
-        return DateTo;
+        return dateTo;
     }
 
     public void setDateTo(Date dateTo) {
-        DateTo = dateTo;
+        this.dateTo = dateTo;
     }
 
     public Vehicle getVehicle() {
-        return Vehicle;
+        return vehicle;
     }
 
     public void setVehicle(Vehicle vehicle) {
-        Vehicle = vehicle;
+        this.vehicle = vehicle;
     }
 }

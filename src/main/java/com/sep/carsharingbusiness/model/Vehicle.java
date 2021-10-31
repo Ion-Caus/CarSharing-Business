@@ -2,108 +2,108 @@ package com.sep.carsharingbusiness.model;
 
 // TODO: 22.10.2021 by Ion: Change the naming to lowercase
 public class Vehicle {
-    public String LicenseNo;
-    public String Brand;
-    public String Model;
-    public String Type;
-    public String Transmission;
-    public String FuelType;
-    public int Seats;
-    public int ManufactureYear;
-    public double Mileage;
+    private String licenseNo;
+    private String brand;
+    private String model;
+    private String type;
+    private String transmission;
+    private String fuelType;
+    private int seats;
+    private int manufactureYear;
+    private double mileage;
 
-    public String OwnerCpr;
+    public String ownerCpr;
 
     public Vehicle(String licenseNo, String brand, String model, String type, String transmission, String fuelType, int seats, int manufactureYear, double mileage, String ownerCpr) {
-        LicenseNo = licenseNo;
-        Brand = brand;
-        Model = model;
-        Type = type;
-        Transmission = transmission;
-        FuelType = fuelType;
-        Seats = seats;
-        ManufactureYear = manufactureYear;
-        Mileage = mileage;
-        OwnerCpr = ownerCpr;
+        this.licenseNo = licenseNo;
+        this.brand = brand;
+        this.model = model;
+        this.type = type;
+        this.transmission = transmission;
+        this.fuelType = fuelType;
+        this.seats = seats;
+        this.manufactureYear = manufactureYear;
+        this.mileage = mileage;
+        this.ownerCpr = ownerCpr;
     }
 
     public String getLicenseNo() {
-        return LicenseNo;
+        return licenseNo;
     }
 
     public void setLicenseNo(String licenseNo) {
-        LicenseNo = licenseNo;
+        this.licenseNo = licenseNo;
     }
 
     public String getBrand() {
-        return Brand;
+        return brand;
     }
 
     public void setBrand(String brand) {
-        Brand = brand;
+        this.brand = brand;
     }
 
     public String getModel() {
-        return Model;
+        return model;
     }
 
     public void setModel(String model) {
-        Model = model;
+        this.model = model;
     }
 
     public String getType() {
-        return Type;
+        return type;
     }
 
     public void setType(String type) {
-        Type = type;
+        this.type = type;
     }
 
     public String getTransmission() {
-        return Transmission;
+        return transmission;
     }
 
     public void setTransmission(String transmission) {
-        Transmission = transmission;
+        this.transmission = transmission;
     }
 
     public String getFuelType() {
-        return FuelType;
+        return fuelType;
     }
 
     public void setFuelType(String fuelType) {
-        FuelType = fuelType;
+        this.fuelType = fuelType;
     }
 
     public int getSeats() {
-        return Seats;
+        return seats;
     }
 
     public void setSeats(int seats) {
-        Seats = seats;
+        this.seats = seats;
     }
 
     public int getManufactureYear() {
-        return ManufactureYear;
+        return manufactureYear;
     }
 
     public void setManufactureYear(int manufactureYear) {
-        ManufactureYear = manufactureYear;
+        this.manufactureYear = manufactureYear;
     }
 
     public double getMileage() {
-        return Mileage;
+        return mileage;
     }
 
     public void setMileage(double mileage) {
-        Mileage = mileage;
+        this.mileage = mileage;
     }
 
     public String getOwnerCpr() {
-        return OwnerCpr;
+        return ownerCpr;
     }
 
     public void setOwnerCpr(String ownerCpr) {
-        OwnerCpr = ownerCpr;
+        this.ownerCpr = ownerCpr;
     }
 }
