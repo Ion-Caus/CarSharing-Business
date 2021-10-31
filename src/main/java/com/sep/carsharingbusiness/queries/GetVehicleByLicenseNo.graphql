@@ -1,0 +1,8 @@
+query {
+	vehicle(licenseNo: "{$licenseNo}") {
+		licenseNo
+		type
+		brand
+		model
+	}
+}
