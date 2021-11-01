@@ -48,7 +48,7 @@ public class ListingService implements IListingService {
                 .uri(URI.create("http://localhost:5004/graphql"))
                 .header("Content-Type", "application/json")
                 .method("POST", HttpRequest.BodyPublishers.ofString(
-                        String.format("{\"query\":\"query {\\n  listing(location: \\\"%s\\\", dateFrom: \\\"%s\\\", dateTo: \\\"%s\\\") {\\n    price\\n    location\\n    vehicle {\\n      licenseNo\\n      type\\n    }\\n  }\\n}\"}",
+                        String.format("{\"query\":\"query {\\n  listing(location: \\\"%s\\\", dateFrom: \\\"%s\\\", dateTo: \\\"%s\\\") {\\n    price\\n    location\\n    vehicle {\\n      licenseNo\\n      brand\\n      model\\n      type\\n    }\\n  }\\n}\"}",
                                 location,
                                 dateFrom.format(DateTimeFormatter.ISO_DATE_TIME),
                                 dateTo.format(DateTimeFormatter.ISO_DATE_TIME)
