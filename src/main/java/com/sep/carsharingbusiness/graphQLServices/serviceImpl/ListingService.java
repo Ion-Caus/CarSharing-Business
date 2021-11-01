@@ -1,9 +1,10 @@
-package com.sep.carsharingbusiness.graphQLServices;
+package com.sep.carsharingbusiness.graphQLServices.serviceImpl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.sep.carsharingbusiness.graphQLServices.IListingService;
 import com.sep.carsharingbusiness.model.Listing;
 
 import java.io.IOException;
@@ -15,11 +16,27 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class ListingService {
-    private Gson gson;
+public class ListingService implements IListingService {
+    private final Gson gson;
 
-    public ListingService() {
+    private static volatile ListingService instance;
+    private static final Object lock = new Object();
+
+    private ListingService() {
         gson = new Gson();
+    }
+
+    public static ListingService getInstance()
+    {
+        if (instance == null)
+        {
+            synchronized (lock){
+                if (instance == null) {
+                    instance = new ListingService();
+                }
+            }
+        }
+        return instance;
     }
 
     // TODO: 31.10.2021 By Ion - research HttpClient and HttpRequest in java

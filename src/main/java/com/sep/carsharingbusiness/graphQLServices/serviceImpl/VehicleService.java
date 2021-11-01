@@ -1,8 +1,9 @@
-package com.sep.carsharingbusiness.graphQLServices;
+package com.sep.carsharingbusiness.graphQLServices.serviceImpl;
 
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.sep.carsharingbusiness.graphQLServices.IVehicleService;
 import com.sep.carsharingbusiness.model.Vehicle;
 
 import java.io.IOException;
@@ -12,11 +13,27 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
-public class VehicleService {
-    private Gson gson;
+public class VehicleService implements IVehicleService {
+    private final Gson gson;
 
-    public VehicleService() {
+    private static volatile VehicleService instance;
+    private static final Object lock = new Object();
+
+    private VehicleService() {
         gson = new Gson();
+    }
+
+    public static VehicleService getInstance()
+    {
+        if (instance == null)
+        {
+            synchronized (lock){
+                if (instance == null) {
+                    instance = new VehicleService();
+                }
+            }
+        }
+        return instance;
     }
 
     // TODO: 30.10.2021 By Ion - research HttpClient and HttpRequest in java
@@ -34,7 +51,6 @@ public class VehicleService {
                         )))
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-
         JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
         obj = obj.get("data").getAsJsonObject().get("vehicle").getAsJsonObject();
         return gson.fromJson(obj, Vehicle.class);
