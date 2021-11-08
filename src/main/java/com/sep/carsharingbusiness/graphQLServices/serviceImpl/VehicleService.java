@@ -5,6 +5,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sep.carsharingbusiness.graphQLServices.IVehicleService;
 import com.sep.carsharingbusiness.model.Vehicle;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,27 +16,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
+@Service
 public class VehicleService implements IVehicleService {
+    private final String GRAPHQL_URI = "http://localhost:5004/graphql?=";
     private final Gson gson;
 
-    private static volatile VehicleService instance;
-    private static final Object lock = new Object();
-
-    private VehicleService() {
+    public VehicleService() {
         gson = new Gson();
-    }
-
-    public static VehicleService getInstance()
-    {
-        if (instance == null)
-        {
-            synchronized (lock){
-                if (instance == null) {
-                    instance = new VehicleService();
-                }
-            }
-        }
-        return instance;
     }
 
     // TODO: 30.10.2021 By Ion - research HttpClient and HttpRequest in java
@@ -42,7 +31,7 @@ public class VehicleService implements IVehicleService {
     // create generic method to return T obj
     public Vehicle getVehicle(String licenseNo) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:5004/graphql?="))
+                .uri(URI.create(GRAPHQL_URI))
                 .timeout(Duration.ofMinutes(2))
                 .header("Content-Type", "application/json")
                 .method("POST", HttpRequest.BodyPublishers.ofString(

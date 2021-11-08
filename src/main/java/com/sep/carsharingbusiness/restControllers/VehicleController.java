@@ -2,8 +2,8 @@ package com.sep.carsharingbusiness.restControllers;
 
 import com.google.gson.Gson;
 import com.sep.carsharingbusiness.graphQLServices.IVehicleService;
-import com.sep.carsharingbusiness.graphQLServices.serviceImpl.VehicleService;
 import com.sep.carsharingbusiness.model.Vehicle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,8 +18,9 @@ public class VehicleController {
 
     private Gson gson;
 
-    public VehicleController() {
-        vehicleService = VehicleService.getInstance();
+    @Autowired
+    public VehicleController(IVehicleService vehicleService) {
+        this.vehicleService = vehicleService;
         gson = new Gson();
     }
 

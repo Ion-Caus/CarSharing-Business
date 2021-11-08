@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.sep.carsharingbusiness.graphQLServices.IListingService;
 import com.sep.carsharingbusiness.model.Listing;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,27 +18,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+@Service
 public class ListingService implements IListingService {
+    private final String GRAPHQL_URI = "http://localhost:5004/graphql?=";
+
     private final Gson gson;
 
-    private static volatile ListingService instance;
-    private static final Object lock = new Object();
-
-    private ListingService() {
+    public ListingService() {
         gson = new Gson();
-    }
-
-    public static ListingService getInstance()
-    {
-        if (instance == null)
-        {
-            synchronized (lock){
-                if (instance == null) {
-                    instance = new ListingService();
-                }
-            }
-        }
-        return instance;
     }
 
     // TODO: 31.10.2021 By Ion - research HttpClient and HttpRequest in java
@@ -45,7 +34,7 @@ public class ListingService implements IListingService {
     // create generic method to return T obj
     public ArrayList<Listing> getListing(String location, LocalDateTime dateFrom, LocalDateTime dateTo) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:5004/graphql"))
+                .uri(URI.create(GRAPHQL_URI))
                 .header("Content-Type", "application/json")
                 .method("POST", HttpRequest.BodyPublishers.ofString(
                         String.format("{\"query\":\"query {\\n  listing(location: \\\"%s\\\", dateFrom: \\\"%s\\\", dateTo: \\\"%s\\\") {\\n    price\\n    location\\n    vehicle {\\n      licenseNo\\n      brand\\n      model\\n      type\\n    }\\n  }\\n}\"}",
