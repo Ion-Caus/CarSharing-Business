@@ -27,7 +27,7 @@ public class ListingController {
     }
 
     @GetMapping(value = "/listings")
-    public synchronized String getVehicle(
+    public synchronized String getListing(
             @RequestParam(value = "location") String location,
             @RequestParam(value = "dateFrom") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateFrom,
             @RequestParam(value = "dateTo") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTo
