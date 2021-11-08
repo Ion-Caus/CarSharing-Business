@@ -28,9 +28,7 @@ public class VehicleController {
     @GetMapping(value = "/vehicle")
     public synchronized String getVehicle(@RequestParam(value = "licenseNo") String licenseNo) {
         try {
-            Vehicle v = vehicleService.getVehicle(licenseNo);
-            System.out.println(v.getLicenseNo());
-            return gson.toJson( v );
+            return gson.toJson( vehicleService.getVehicle(licenseNo) );
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
