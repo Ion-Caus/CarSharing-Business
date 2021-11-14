@@ -1,6 +1,5 @@
 package com.sep.carsharingbusiness.model;
 
-// TODO: 22.10.2021 by Ion: Change the naming to lowercase
 public class Vehicle {
     private String licenseNo;
     private String brand;

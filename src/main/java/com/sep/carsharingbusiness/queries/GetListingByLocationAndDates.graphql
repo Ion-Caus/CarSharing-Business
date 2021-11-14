@@ -1,0 +1,12 @@
+query {
+  listing(location: \"%s\", dateFrom: \"%s\", dateTo: \"%s\") {
+    price
+    location
+    vehicle{
+      licenseNo
+      brand
+      model
+      type
+    }
+  }
+}
