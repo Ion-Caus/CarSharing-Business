@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Listing {
+    private int id;
     private Date listedDate;
     private BigDecimal price;
     private String location;
@@ -12,6 +13,16 @@ public class Listing {
 
     public Vehicle vehicle;
 
+    public Listing(int id, Date listedDate, BigDecimal price, String location, Date dateFrom, Date dateTo, Vehicle vehicle) {
+        this.id = id;
+        this.listedDate = listedDate;
+        this.price = price;
+        this.location = location;
+        this.dateFrom = dateFrom;
+        this.dateTo = dateTo;
+        this.vehicle = vehicle;
+    }
+
     public Listing(Date listedDate, BigDecimal price, String location, Date dateFrom, Date dateTo, Vehicle vehicle) {
         this.listedDate = listedDate;
         this.price = price;
@@ -19,6 +30,14 @@ public class Listing {
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.vehicle = vehicle;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getListedDate() {

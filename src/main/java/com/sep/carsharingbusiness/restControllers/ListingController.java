@@ -3,12 +3,12 @@ package com.sep.carsharingbusiness.restControllers;
 import com.google.gson.Gson;
 import com.sep.carsharingbusiness.graphQLServices.IListingService;
 import com.sep.carsharingbusiness.graphQLServices.serviceImpl.ListingService;
+import com.sep.carsharingbusiness.model.Listing;
+import com.sep.carsharingbusiness.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 
 @RestController
 public class ListingController {
-    private IListingService listingService;
+    private final IListingService listingService;
 
-    private Gson gson;
+    private final Gson gson;
 
     @Autowired
     public ListingController(ListingService listingService) {
@@ -34,6 +34,44 @@ public class ListingController {
     ) {
         try {
             return gson.toJson( listingService.getListing(location, dateFrom, dateTo) );
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+        }
+    }
+
+    @PostMapping(value = "/listings")
+    public synchronized String addListing(@RequestBody String json) {
+        try {
+            Listing listing = gson.fromJson(json, Listing.class);
+            return gson.toJson( listingService.addListing(listing) );
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+        }
+    }
+
+    @PatchMapping("/listings")
+    public synchronized String updateListing(@RequestBody Listing listing, @RequestParam(value = "id") int id) {
+        if (listing.getId() != id) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The id from param does not match with the listing's id.");
+        }
+        try {
+            return gson.toJson( listingService.updateListing(listing) );
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+        }
+    }
+
+    @DeleteMapping("/listings")
+    public synchronized HttpStatus removeListing(@RequestParam(value = "id") int id) {
+        try {
+            listingService.removeListing(id);
+            return HttpStatus.OK;
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

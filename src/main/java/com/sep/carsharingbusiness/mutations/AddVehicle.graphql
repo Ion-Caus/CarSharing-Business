@@ -1,0 +1,16 @@
+mutation {
+    addVehicle(vehicle : {
+      licenseNo: \"%s\"
+      brand: \"%s\"
+      model: \"%s\"
+      transmission: \"%s\"
+      fuelType: \"%s\"
+      type: \"%s\"
+      seats: %s
+      mileage: %s
+      manufactureYear: %s
+    }) {
+      licenseNo
+      model
+    }
+}

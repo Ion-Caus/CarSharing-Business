@@ -21,7 +21,7 @@ public class GraphQLService {
     private static final String GRAPHQL_URI = "http://localhost:5004/graphql?=";
     private static final Gson gson = new Gson();
 
-    private static HttpResponse<String> sendQuery(String query) throws IOException, InterruptedException {
+    public static HttpResponse<String> sendQuery(String query) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(GRAPHQL_URI))
                 .timeout(Duration.ofMinutes(2))
@@ -51,12 +51,16 @@ public class GraphQLService {
         return gson.fromJson(obj, objType);
     }
 
-    public static String getQueryFromFile(String fileName) throws IOException {
-        List<String> strings = ((Files.readAllLines(Path.of("src/main/java/com/sep/carsharingbusiness/queries/"+fileName))));
+    public static String getQueryFromFile(String fileName, boolean isMutation) throws IOException {
+        String path = "src/main/java/com/sep/carsharingbusiness/" + ( isMutation? "mutation/" : "queries/" );
+        List<String> strings = ((Files.readAllLines(Path.of(path + fileName))));
+
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("{\"query\":\"");
         strings.forEach(stringBuilder::append);
         stringBuilder.append("\"}");
+
         return stringBuilder.toString();
     }
+
 }
