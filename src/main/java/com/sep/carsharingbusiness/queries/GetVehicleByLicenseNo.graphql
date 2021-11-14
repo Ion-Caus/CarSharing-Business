@@ -1,5 +1,5 @@
 query {
-	vehicle(licenseNo: "{$licenseNo}") {
+	vehicle(licenseNo: \"%s\") {
 		licenseNo
 		type
 		brand
