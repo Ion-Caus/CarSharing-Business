@@ -44,15 +44,12 @@ public class GraphQLService {
     public static <T> T createObjQuery(String query, String naming, Class<T> objType) throws IOException, InterruptedException {
         HttpResponse<String> response = sendQuery(query);
 
-        JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
-        System.out.println(obj);
-        obj = obj.get("data").getAsJsonObject().get(naming).getAsJsonObject();
-        System.out.println(obj);
+        JsonObject obj = gson.fromJson(response.body(), JsonObject.class);obj = obj.get("data").getAsJsonObject().get(naming).getAsJsonObject();
         return gson.fromJson(obj, objType);
     }
 
     public static String getQueryFromFile(String fileName, boolean isMutation) throws IOException {
-        String path = "src/main/java/com/sep/carsharingbusiness/" + ( isMutation? "mutation/" : "queries/" );
+        String path = "src/main/java/com/sep/carsharingbusiness/" + ( isMutation? "mutations/" : "queries/" );
         List<String> strings = ((Files.readAllLines(Path.of(path + fileName))));
 
         StringBuilder stringBuilder = new StringBuilder();

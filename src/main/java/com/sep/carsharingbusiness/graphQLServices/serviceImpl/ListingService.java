@@ -49,7 +49,7 @@ public class ListingService implements IListingService {
                         listing.vehicle.getMileage(),
                         listing.vehicle.getManufactureYear()
                 ),
-                "listing",
+                "addListing",
                 Listing.class
         );
     }
@@ -75,7 +75,7 @@ public class ListingService implements IListingService {
                         listing.vehicle.getMileage(),
                         listing.vehicle.getManufactureYear()
                 ),
-                "listing",
+                "updateListing",
                 Listing.class
         );
     }

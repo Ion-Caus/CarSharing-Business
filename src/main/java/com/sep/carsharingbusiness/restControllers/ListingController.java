@@ -2,9 +2,7 @@ package com.sep.carsharingbusiness.restControllers;
 
 import com.google.gson.Gson;
 import com.sep.carsharingbusiness.graphQLServices.IListingService;
-import com.sep.carsharingbusiness.graphQLServices.serviceImpl.ListingService;
 import com.sep.carsharingbusiness.model.Listing;
-import com.sep.carsharingbusiness.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -21,7 +19,7 @@ public class ListingController {
     private final Gson gson;
 
     @Autowired
-    public ListingController(ListingService listingService) {
+    public ListingController(IListingService listingService) {
         this.listingService = listingService;
         gson = new Gson();
     }

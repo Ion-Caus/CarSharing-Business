@@ -40,7 +40,7 @@ public class VehicleService implements IVehicleService {
                         vehicle.getMileage(),
                         vehicle.getManufactureYear()
                 ),
-                "vehicle",
+                "addVehicle",
                 Vehicle.class
         );
     }
@@ -60,7 +60,7 @@ public class VehicleService implements IVehicleService {
                         vehicle.getMileage(),
                         vehicle.getManufactureYear()
                 ),
-                "vehicle",
+                "updateVehicle",
                 Vehicle.class
         );
     }
