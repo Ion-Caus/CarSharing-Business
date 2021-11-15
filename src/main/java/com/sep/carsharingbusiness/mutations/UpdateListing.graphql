@@ -1,0 +1,26 @@
+mutation {
+  updateListing(input: {
+      id: %s
+      price: %s
+      listedDate: \"%s\"
+      location: \"%s\"
+      dateFrom: \"%s\"
+      dateTo: \"%s\"
+      vehicle: {
+        licenseNo: \"%s\"
+        brand: \"%s\"
+        model: \"%s\"
+        transmission: \"%s\"
+        fuelType: \"%s\"
+        type: \"%s\"
+        seats: %s
+        mileage: %s
+        manufactureYear: %s
+  }}) {
+    id
+    price
+    vehicle {
+      licenseNo
+    }
+  }
+}

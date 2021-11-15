@@ -8,4 +8,7 @@ import java.util.ArrayList;
 
 public interface IListingService {
     ArrayList<Listing> getListing(String location, LocalDateTime dateFrom, LocalDateTime dateTo) throws IOException, InterruptedException;
+    Listing addListing(Listing listing) throws IOException, InterruptedException;
+    Listing updateListing(Listing listing) throws IOException, InterruptedException;
+    void removeListing(int id) throws IOException, InterruptedException;
 }
