@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.sep.carsharingbusiness.log.Log;
 
 import java.io.IOException;
 import java.net.URI;
@@ -22,6 +23,7 @@ public class GraphQLService {
     private static final Gson gson = new Gson();
 
     public static HttpResponse<String> sendQuery(String query) throws IOException, InterruptedException {
+        Log.addLog("|graphQlServices/GraphQLService.sendQuery| : Request : " + query);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(GRAPHQL_URI))
                 .timeout(Duration.ofMinutes(2))
@@ -38,6 +40,7 @@ public class GraphQLService {
 
         JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
         JsonArray arr = obj.get("data").getAsJsonObject().get(naming).getAsJsonArray();
+        Log.addLog("|graphQlServices/GraphQLService.createListQuery| : Reply : " + arr);
         return gson.fromJson(arr, new TypeToken<ArrayList<T>>() {}.getType());
     }
 
@@ -45,6 +48,7 @@ public class GraphQLService {
         HttpResponse<String> response = sendQuery(query);
 
         JsonObject obj = gson.fromJson(response.body(), JsonObject.class);obj = obj.get("data").getAsJsonObject().get(naming).getAsJsonObject();
+        Log.addLog("|graphQlServices/GraphQLService.createListQuery| : Reply : " + obj);
         return gson.fromJson(obj, objType);
     }
 
