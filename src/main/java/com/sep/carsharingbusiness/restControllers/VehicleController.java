@@ -18,7 +18,7 @@ public class VehicleController {
     private final Gson gson;
 
     @Autowired
-    public VehicleController(IVehicleService vehicleService, Log log) {
+    public VehicleController(IVehicleService vehicleService) {
         this.vehicleService = vehicleService;
         gson = new Gson();
     }
@@ -27,10 +27,9 @@ public class VehicleController {
     @GetMapping(value = "/vehicles")
     public synchronized String getVehicle(@RequestParam(value = "licenseNo") String licenseNo) {
         try {
+            Log.addLog("|restControllers/VehicleController.getVehicle| : Request : LicenseNo:" + licenseNo);
             Vehicle vehicle = vehicleService.getVehicle(licenseNo);
-            String result = gson.toJson(vehicle);
-            Log.addLog("|restControllers/VehicleController.getVehicle| : Request : " + licenseNo);
-            return result;
+            return gson.toJson(vehicle);
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -42,10 +41,9 @@ public class VehicleController {
     @PostMapping(value = "/vehicles")
     public synchronized String addVehicle(@RequestBody String json) {
         try {
-            Vehicle vehicle = gson.fromJson(json, Vehicle.class);
-            String result = gson.toJson(vehicleService.addVehicle(vehicle));
             Log.addLog("|restControllers/VehicleController.addVehicle| : Request : " + json);
-            return result;
+            Vehicle vehicle = gson.fromJson(json, Vehicle.class);
+            return gson.toJson(vehicleService.addVehicle(vehicle));
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -74,8 +72,8 @@ public class VehicleController {
     @DeleteMapping("/vehicles")
     public synchronized HttpStatus removeVehicle(@RequestParam(value = "licenseNo") String licenseNo) {
         try {
-            vehicleService.removeVehicle(licenseNo);
             Log.addLog("|restControllers/VehicleController.removeVehicle| : Request : " + licenseNo);
+            vehicleService.removeVehicle(licenseNo);
             return HttpStatus.OK;
 
         } catch (IOException | InterruptedException e) {

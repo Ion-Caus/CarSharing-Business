@@ -32,9 +32,8 @@ public class ListingController {
             @RequestParam(value = "dateTo") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTo
     ) {
         try {
-            String result = gson.toJson(listingService.getListing(location, dateFrom, dateTo));
-            Log.addLog("|restControllers/ListingController.getListing| : Request : " + location + " "+ dateFrom + " " + dateTo);
-            return result;
+            Log.addLog("|restControllers/ListingController.getListing| : Request : Location:" + location + ", DateFrom"+ dateFrom + ", DateTo" + dateTo);
+            return gson.toJson(listingService.getListing(location, dateFrom, dateTo));
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -46,10 +45,9 @@ public class ListingController {
     @PostMapping(value = "/listings")
     public synchronized String addListing(@RequestBody String json) {
         try {
-            Listing listing = gson.fromJson(json, Listing.class);
-            String result = gson.toJson(listingService.addListing(listing));
             Log.addLog("|restControllers/ListingController.addListing| : Request : " + json);
-            return result;
+            Listing listing = gson.fromJson(json, Listing.class);
+            return gson.toJson(listingService.addListing(listing));
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -78,8 +76,8 @@ public class ListingController {
     @DeleteMapping("/listings")
     public synchronized HttpStatus removeListing(@RequestParam(value = "id") int id) {
         try {
-            listingService.removeListing(id);
             Log.addLog("|restControllers/ListingController.removeListing| : Request : " + id);
+            listingService.removeListing(id);
             return HttpStatus.OK;
 
         } catch (IOException | InterruptedException e) {
