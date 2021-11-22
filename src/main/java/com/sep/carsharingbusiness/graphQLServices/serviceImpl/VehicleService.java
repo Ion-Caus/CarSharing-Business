@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Service
 public class VehicleService implements IVehicleService {
@@ -22,6 +23,17 @@ public class VehicleService implements IVehicleService {
                 ),
                 "vehicle",
                 Vehicle.class
+        );
+    }
+
+    @SessionScope
+    public ArrayList<Vehicle> getVehiclesByOwnerCpr(String cpr) throws IOException, InterruptedException {
+        return GraphQLService.createListQuery(
+                String.format(
+                        GraphQLService.getQueryFromFile( QueryEnum.VehicleByOwnerCpr.get(), false),
+                        cpr
+                ),
+                "vehiclesByOwner"
         );
     }
 
