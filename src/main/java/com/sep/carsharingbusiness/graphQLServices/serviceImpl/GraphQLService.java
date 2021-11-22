@@ -39,6 +39,13 @@ public class GraphQLService {
         HttpResponse<String> response = sendQuery(query);
 
         JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
+
+        if (obj.has("errors")) {
+            String errorMessage = obj.get("errors").getAsJsonArray().get(0).getAsJsonObject().get("message").getAsString();
+            Log.addLog("|graphQlServices/GraphQLService.createListQuery| : Error : " + errorMessage);
+            throw new InternalError(errorMessage);
+        }
+
         JsonArray arr = obj.get("data").getAsJsonObject().get(naming).getAsJsonArray();
         Log.addLog("|graphQlServices/GraphQLService.createListQuery| : Reply : " + arr);
         return gson.fromJson(arr, new TypeToken<ArrayList<T>>() {}.getType());
@@ -48,6 +55,12 @@ public class GraphQLService {
         HttpResponse<String> response = sendQuery(query);
 
         JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
+
+        if (obj.has("errors")) {
+            String errorMessage = obj.get("errors").getAsJsonArray().get(0).getAsJsonObject().get("message").getAsString();
+            Log.addLog("|graphQlServices/GraphQLService.createObjQuery| : Error : " + errorMessage);
+            throw new InternalError(errorMessage);
+        }
         obj = obj.get("data").getAsJsonObject().get(naming).getAsJsonObject();
         Log.addLog("|graphQlServices/GraphQLService.createObjQuery| : Reply : " + obj);
         return gson.fromJson(obj, objType);
