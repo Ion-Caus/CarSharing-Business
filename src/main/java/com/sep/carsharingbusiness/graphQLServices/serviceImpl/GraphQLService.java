@@ -47,8 +47,9 @@ public class GraphQLService {
     public static <T> T createObjQuery(String query, String naming, Class<T> objType) throws IOException, InterruptedException {
         HttpResponse<String> response = sendQuery(query);
 
-        JsonObject obj = gson.fromJson(response.body(), JsonObject.class);obj = obj.get("data").getAsJsonObject().get(naming).getAsJsonObject();
-        Log.addLog("|graphQlServices/GraphQLService.createListQuery| : Reply : " + obj);
+        JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
+        obj = obj.get("data").getAsJsonObject().get(naming).getAsJsonObject();
+        Log.addLog("|graphQlServices/GraphQLService.createObjQuery| : Reply : " + obj);
         return gson.fromJson(obj, objType);
     }
 

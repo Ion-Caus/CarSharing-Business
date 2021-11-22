@@ -1,0 +1,12 @@
+mutation {
+    addCustomer(customer : {
+      cpr: \"%s\"
+      firstName: \"%s\"
+      lastName: \"%s\"
+    }) {
+      cpr
+      firstName
+      lastName
+      phoneNo
+    }
+}

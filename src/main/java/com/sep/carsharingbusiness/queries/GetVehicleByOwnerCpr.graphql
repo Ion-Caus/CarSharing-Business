@@ -1,0 +1,9 @@
+query {
+  vehiclesByOwner(cpr: \"%s\") {
+    licenseNo
+    type
+    brand
+    model
+
+  }
+}

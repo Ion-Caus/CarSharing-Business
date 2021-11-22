@@ -1,0 +1,12 @@
+query {
+  account (username: \"%s\") {
+    username
+    password
+    customer {
+      cpr
+      firstName
+      lastName
+      phoneNo
+    }
+  }
+}

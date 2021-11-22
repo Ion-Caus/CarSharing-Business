@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @RestController
 public class VehicleController {
@@ -34,6 +35,20 @@ public class VehicleController {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             Log.addLog("|restControllers/VehicleController.getVehicle| : Error : " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+        }
+    }
+
+    @GetMapping(value = "/vehicles/owner")
+    public synchronized String getVehiclesByOwnerCpr(@RequestParam(value = "cpr") String cpr) {
+        try {
+            Log.addLog("|restControllers/VehicleController.getVehicleByOwnerCpr| : Request : Cpr:" + cpr);
+            ArrayList<Vehicle> vehicles = vehicleService.getVehiclesByOwnerCpr(cpr);
+            return gson.toJson(vehicles);
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            Log.addLog("|restControllers/VehicleController.getVehicleByOwnerCpr| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }
     }

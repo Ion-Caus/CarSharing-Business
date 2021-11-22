@@ -1,0 +1,21 @@
+mutation {
+  addAccount(account: {
+    username: \"%s\"
+    password: \"%s\"
+    customer: {
+      cpr: \"%s\"
+      firstName: \"%s\"
+      lastName: \"%s\"
+      phoneNo: \"%s\"
+    }
+  })  {
+    username
+    password
+    customer{
+      cpr
+      firstName
+      lastName
+      phoneNo
+    }
+  }
+}
