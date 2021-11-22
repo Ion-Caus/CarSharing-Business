@@ -3,6 +3,7 @@ mutation {
       cpr: \"%s\"
       firstName: \"%s\"
       lastName: \"%s\"
+      phoneNo: \"%s\"
     }) {
       cpr
       firstName

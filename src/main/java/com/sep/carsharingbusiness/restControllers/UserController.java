@@ -37,7 +37,7 @@ public class UserController {
             Log.addLog("|restControllers/AccountController.login| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }
-        catch (IllegalAccessException e) {
+        catch (IllegalAccessException | InternalError e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getLocalizedMessage());
         }
     }

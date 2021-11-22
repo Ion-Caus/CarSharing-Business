@@ -29,7 +29,7 @@ public class AccountService implements IAccountService {
     public Account addAccount(Account account) throws IOException, InterruptedException {
         return GraphQLService.createObjQuery(
                 String.format(
-                        GraphQLService.getQueryFromFile( MutationEnum.AddCustomer.get(), true),
+                        GraphQLService.getQueryFromFile( MutationEnum.AddAccount.get(), true),
                         account.getUsername(),
                         account.getPassword(),
                         account.customer.getCpr(),
