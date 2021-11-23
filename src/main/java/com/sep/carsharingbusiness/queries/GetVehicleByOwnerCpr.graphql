@@ -1,9 +1,13 @@
 query {
   vehiclesByOwner(cpr: \"%s\") {
-    licenseNo
-    type
-    brand
-    model
-
+        licenseNo
+        brand
+        model
+        manufactureYear
+        seats
+        mileage
+        fuelType
+        transmission
+        type
   }
 }

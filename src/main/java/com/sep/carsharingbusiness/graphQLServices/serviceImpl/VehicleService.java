@@ -50,7 +50,11 @@ public class VehicleService implements IVehicleService {
                         vehicle.getType(),
                         vehicle.getSeats(),
                         vehicle.getMileage(),
-                        vehicle.getManufactureYear()
+                        vehicle.getManufactureYear(),
+                        vehicle.owner.getCpr(),
+                        vehicle.owner.getFirstName(),
+                        vehicle.owner.getLastName(),
+                        vehicle.owner.getPhoneNo()
                 ),
                 "addVehicle",
                 Vehicle.class
@@ -78,12 +82,14 @@ public class VehicleService implements IVehicleService {
     }
 
     @SessionScope
-    public void removeVehicle(String licenseNo) throws IOException, InterruptedException {
-        GraphQLService.sendQuery(
+    public boolean removeVehicle(String licenseNo) throws IOException, InterruptedException {
+        return GraphQLService.createObjQuery(
                 String.format(
                         GraphQLService.getQueryFromFile( MutationEnum.RemoveVehicle.get(), true),
                         licenseNo
-                )
+                ),
+                "removeVehicle",
+                boolean.class
         );
     }
 }

@@ -1,9 +1,11 @@
 package com.sep.carsharingbusiness.restControllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sep.carsharingbusiness.graphQLServices.IListingService;
 import com.sep.carsharingbusiness.log.Log;
 import com.sep.carsharingbusiness.model.Listing;
+import com.sep.carsharingbusiness.restControllers.extentions.DoubleJsonAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,9 @@ public class ListingController {
     @Autowired
     public ListingController(IListingService listingService) {
         this.listingService = listingService;
-        gson = new Gson();
+        gson = new GsonBuilder()
+                .registerTypeAdapter(Double.class,  new DoubleJsonAdapter())
+                .create();
     }
 
     @GetMapping(value = "/listings")
@@ -33,11 +37,24 @@ public class ListingController {
     ) {
         try {
             Log.addLog("|restControllers/ListingController.getListing| : Request : Location:" + location + ", DateFrom"+ dateFrom + ", DateTo" + dateTo);
-            return gson.toJson(listingService.getListing(location, dateFrom, dateTo));
+            return gson.toJson(listingService.getListings(location, dateFrom, dateTo));
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             Log.addLog("|restControllers/ListingController.getListing| : Error : " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+        }
+    }
+
+    @GetMapping(value = "/listings/{id}")
+    public synchronized String getListingById(@PathVariable int id) {
+        try {
+            Log.addLog("|restControllers/ListingController.getListingById| : Request : Id:" + id );
+            return gson.toJson(listingService.getListingById(id));
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            Log.addLog("|restControllers/ListingController.getListingById| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }
     }
@@ -56,8 +73,8 @@ public class ListingController {
         }
     }
 
-    @PatchMapping("/listings")
-    public synchronized String updateListing(@RequestBody Listing listing, @RequestParam(value = "id") int id) {
+    @PatchMapping("/listings/{id}")
+    public synchronized String updateListing(@RequestBody Listing listing, @PathVariable int id) {
         if (listing.getId() != id) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The id from param does not match with the listing's id.");
         }
@@ -73,8 +90,8 @@ public class ListingController {
         }
     }
 
-    @DeleteMapping("/listings")
-    public synchronized HttpStatus removeListing(@RequestParam(value = "id") int id) {
+    @DeleteMapping("/listings/{id}")
+    public synchronized HttpStatus removeListing(@PathVariable int id) {
         try {
             Log.addLog("|restControllers/ListingController.removeListing| : Request : " + id);
             listingService.removeListing(id);

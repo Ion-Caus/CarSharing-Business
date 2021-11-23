@@ -52,8 +52,8 @@ public class CustomerController {
         }
     }
 
-    @PatchMapping("/customers")
-    public synchronized String updateCustomer(@RequestBody Customer customer, @RequestParam(value = "cpr") String cpr) {
+    @PatchMapping("/customers/{cpr}")
+    public synchronized String updateCustomer(@RequestBody Customer customer, @PathVariable String cpr) {
         if (!customer.getCpr().equals(cpr)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The cpr from param does not match with the customer's cpr.");
         }
@@ -69,8 +69,8 @@ public class CustomerController {
         }
     }
 
-    @DeleteMapping("/customers")
-    public synchronized HttpStatus removeCustomer(@RequestParam(value = "cpr") String cpr) {
+    @DeleteMapping("/customers/{cpr}")
+    public synchronized HttpStatus removeCustomer(@PathVariable String cpr) {
         try {
             Log.addLog("|restControllers/CustomerController.removeCustomer| : Request : " + cpr);
             customerService.removeCustomer(cpr);

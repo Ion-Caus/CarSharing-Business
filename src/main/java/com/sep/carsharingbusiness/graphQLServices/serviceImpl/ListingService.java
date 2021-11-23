@@ -17,7 +17,7 @@ public class ListingService implements IListingService {
 
 
     @SessionScope
-    public ArrayList<Listing> getListing(String location, LocalDateTime dateFrom, LocalDateTime dateTo) throws IOException, InterruptedException {
+    public ArrayList<Listing> getListings(String location, LocalDateTime dateFrom, LocalDateTime dateTo) throws IOException, InterruptedException {
         return GraphQLService.createListQuery(
                 String.format(
                         GraphQLService.getQueryFromFile( QueryEnum.ListingsByLocationAndDates.get(), false ),
@@ -27,6 +27,19 @@ public class ListingService implements IListingService {
                 ),
                 "listing"
         );
+    }
+
+    @SessionScope
+    public Listing getListingById(int id) throws IOException, InterruptedException {
+        // TODO: 23.11.2021 by Ion - Create the Query to get a listing by id || also implemented it in DAL
+        return null;
+//        return GraphQLService.createListQuery(
+//                String.format(
+//                        GraphQLService.getQueryFromFile( QueryEnum.ListingById.get(), false ),
+//                        id
+//                ),
+//                "listing"
+//        );
     }
 
     @SessionScope

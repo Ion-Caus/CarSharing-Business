@@ -10,6 +10,6 @@ public interface IVehicleService {
     ArrayList<Vehicle> getVehiclesByOwnerCpr(String cpr) throws IOException, InterruptedException;
     Vehicle addVehicle(Vehicle vehicle) throws IOException, InterruptedException;
     Vehicle updateVehicle(Vehicle vehicle) throws IOException, InterruptedException;
-    void removeVehicle(String licenseNo) throws IOException, InterruptedException;
+    boolean removeVehicle(String licenseNo) throws IOException, InterruptedException;
 
 }
