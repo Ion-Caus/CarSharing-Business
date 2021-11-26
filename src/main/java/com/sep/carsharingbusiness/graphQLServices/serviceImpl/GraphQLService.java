@@ -1,9 +1,11 @@
 package com.sep.carsharingbusiness.graphQLServices.serviceImpl;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.sep.carsharingbusiness.extentions.LocalDateTimeJsonAdapter;
 import com.sep.carsharingbusiness.log.Log;
 
 import java.io.IOException;
@@ -14,13 +16,17 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GraphQLService {
 
     private static final String GRAPHQL_URI = "http://localhost:5004/graphql?=";
-    private static final Gson gson = new Gson();
+    private static final Gson gson =
+            new GsonBuilder()
+                    .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJsonAdapter())
+                    .create();
 
     public static HttpResponse<String> sendQuery(String query) throws IOException, InterruptedException {
         Log.addLog("|graphQlServices/GraphQLService.sendQuery| : Request : " + query);
@@ -48,7 +54,8 @@ public class GraphQLService {
 
         JsonArray arr = obj.get("data").getAsJsonObject().get(naming).getAsJsonArray();
         Log.addLog("|graphQlServices/GraphQLService.createListQuery| : Reply : " + arr);
-        return gson.fromJson(arr, new TypeToken<ArrayList<T>>() {}.getType());
+        return gson.fromJson(arr, new TypeToken<ArrayList<T>>() {
+        }.getType());
     }
 
     public static <T> T createObjQuery(String query, String naming, Class<T> objType) throws IOException, InterruptedException {
@@ -67,7 +74,7 @@ public class GraphQLService {
     }
 
     public static String getQueryFromFile(String fileName, boolean isMutation) throws IOException {
-        String path = "src/main/java/com/sep/carsharingbusiness/" + ( isMutation? "mutations/" : "queries/" );
+        String path = "src/main/java/com/sep/carsharingbusiness/" + (isMutation ? "mutations/" : "queries/");
         List<String> strings = ((Files.readAllLines(Path.of(path + fileName))));
 
         StringBuilder stringBuilder = new StringBuilder();

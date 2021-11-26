@@ -5,7 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.sep.carsharingbusiness.graphQLServices.IListingService;
 import com.sep.carsharingbusiness.log.Log;
 import com.sep.carsharingbusiness.model.Listing;
-import com.sep.carsharingbusiness.restControllers.extentions.DoubleJsonAdapter;
+import com.sep.carsharingbusiness.extentions.DoubleJsonAdapter;
+import com.sep.carsharingbusiness.extentions.LocalDateTimeJsonAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class ListingController {
         this.listingService = listingService;
         gson = new GsonBuilder()
                 .registerTypeAdapter(Double.class,  new DoubleJsonAdapter())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJsonAdapter())
                 .create();
     }
 
@@ -36,7 +38,7 @@ public class ListingController {
             @RequestParam(value = "dateTo") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTo
     ) {
         try {
-            Log.addLog("|restControllers/ListingController.getListing| : Request : Location:" + location + ", DateFrom"+ dateFrom + ", DateTo" + dateTo);
+            Log.addLog("|restControllers/ListingController.getListing| : Request : Location: " + location + ", DateFrom: "+ dateFrom + ", DateTo: " + dateTo);
             return gson.toJson(listingService.getListings(location, dateFrom, dateTo));
 
         } catch (IOException | InterruptedException e) {

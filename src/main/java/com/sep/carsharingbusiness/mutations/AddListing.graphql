@@ -1,6 +1,6 @@
 mutation {
   addListing(input: {
-    price: \"%s\"
+    price: %s
     listedDate: \"%s\"
     location: \"%s\"
     dateFrom: \"%s\"

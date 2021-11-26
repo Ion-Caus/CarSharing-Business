@@ -4,14 +4,13 @@ import com.google.gson.*;
 import com.sep.carsharingbusiness.graphQLServices.IVehicleService;
 import com.sep.carsharingbusiness.log.Log;
 import com.sep.carsharingbusiness.model.Vehicle;
-import com.sep.carsharingbusiness.restControllers.extentions.DoubleJsonAdapter;
+import com.sep.carsharingbusiness.extentions.DoubleJsonAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 @RestController

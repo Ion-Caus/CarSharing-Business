@@ -1,4 +1,4 @@
-package com.sep.carsharingbusiness.restControllers.extentions;
+package com.sep.carsharingbusiness.extentions;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;

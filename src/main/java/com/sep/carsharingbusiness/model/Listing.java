@@ -1,19 +1,19 @@
 package com.sep.carsharingbusiness.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Listing {
     private int id;
-    private Date listedDate;
+    private LocalDateTime listedDate;
     private BigDecimal price;
     private String location;
-    private Date dateFrom;
-    private Date dateTo;
+    private LocalDateTime dateFrom;
+    private LocalDateTime dateTo;
 
     public Vehicle vehicle;
 
-    public Listing(int id, Date listedDate, BigDecimal price, String location, Date dateFrom, Date dateTo, Vehicle vehicle) {
+    public Listing(int id, LocalDateTime listedDate, BigDecimal price, String location, LocalDateTime dateFrom, LocalDateTime dateTo, Vehicle vehicle) {
         this.id = id;
         this.listedDate = listedDate;
         this.price = price;
@@ -23,7 +23,7 @@ public class Listing {
         this.vehicle = vehicle;
     }
 
-    public Listing(Date listedDate, BigDecimal price, String location, Date dateFrom, Date dateTo, Vehicle vehicle) {
+    public Listing(LocalDateTime listedDate, BigDecimal price, String location, LocalDateTime dateFrom, LocalDateTime dateTo, Vehicle vehicle) {
         this.listedDate = listedDate;
         this.price = price;
         this.location = location;
@@ -40,11 +40,11 @@ public class Listing {
         this.id = id;
     }
 
-    public Date getListedDate() {
+    public LocalDateTime getListedDate() {
         return listedDate;
     }
 
-    public void setListedDate(Date listedDate) {
+    public void setListedDate(LocalDateTime listedDate) {
         this.listedDate = listedDate;
     }
 
@@ -64,19 +64,19 @@ public class Listing {
         this.location = location;
     }
 
-    public Date getDateFrom() {
+    public LocalDateTime getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(Date dateFrom) {
+    public void setDateFrom(LocalDateTime dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public Date getDateTo() {
+    public LocalDateTime getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(Date dateTo) {
+    public void setDateTo(LocalDateTime dateTo) {
         this.dateTo = dateTo;
     }
 
