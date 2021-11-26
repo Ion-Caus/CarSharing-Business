@@ -11,5 +11,5 @@ public interface IListingService {
     Listing getListingById(int id) throws IOException, InterruptedException;
     Listing addListing(Listing listing) throws IOException, InterruptedException;
     Listing updateListing(Listing listing) throws IOException, InterruptedException;
-    void removeListing(int id) throws IOException, InterruptedException;
+    boolean removeListing(int id) throws IOException, InterruptedException;
 }

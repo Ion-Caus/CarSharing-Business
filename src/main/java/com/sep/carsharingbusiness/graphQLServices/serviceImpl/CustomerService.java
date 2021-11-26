@@ -55,12 +55,15 @@ public class CustomerService implements ICustomerService {
     }
 
     @SessionScope
-    public void removeCustomer(String cpr) throws IOException, InterruptedException {
-        GraphQLService.sendQuery(
-                String.format(
-                        GraphQLService.getQueryFromFile( MutationEnum.RemoveCustomer.get(), true),
-                        cpr
-                )
+    public boolean removeCustomer(String cpr) throws IOException, InterruptedException {
+        return GraphQLService.createRemoveResponse(
+                GraphQLService.sendQuery(
+                        String.format(
+                                GraphQLService.getQueryFromFile( MutationEnum.RemoveCustomer.get(), true),
+                                cpr
+                        )
+                ),
+                "removeCustomer"
         );
     }
 }

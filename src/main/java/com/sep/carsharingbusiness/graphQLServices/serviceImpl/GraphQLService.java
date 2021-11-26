@@ -73,6 +73,22 @@ public class GraphQLService {
         return gson.fromJson(obj, objType);
     }
 
+    public static boolean createRemoveResponse(HttpResponse<String> response, String naming) {
+
+        JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
+
+        if (obj.has("errors")) {
+            String errorMessage = obj.get("errors").getAsJsonArray().get(0).getAsJsonObject().get("message").getAsString();
+            Log.addLog("|graphQlServices/GraphQLService.createRemoveResponse| : Error : " + errorMessage);
+            throw new InternalError(errorMessage);
+        }
+
+        boolean status = Boolean.parseBoolean( obj.get("data").getAsJsonObject().get(naming).getAsString() );
+
+        Log.addLog("|graphQlServices/GraphQLService.createRemoveResponse| : Reply : " + status);
+        return status;
+    }
+
     public static String getQueryFromFile(String fileName, boolean isMutation) throws IOException {
         String path = "src/main/java/com/sep/carsharingbusiness/" + (isMutation ? "mutations/" : "queries/");
         List<String> strings = ((Files.readAllLines(Path.of(path + fileName))));

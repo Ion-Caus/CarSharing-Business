@@ -8,5 +8,5 @@ public interface ICustomerService {
     Customer getCustomer(String cpr) throws IOException, InterruptedException;
     Customer addCustomer(Customer customer) throws IOException, InterruptedException;
     Customer updateCustomer(Customer customer) throws IOException, InterruptedException;
-    void removeCustomer(String cpr) throws IOException, InterruptedException;
+    boolean removeCustomer(String cpr) throws IOException, InterruptedException;
 }

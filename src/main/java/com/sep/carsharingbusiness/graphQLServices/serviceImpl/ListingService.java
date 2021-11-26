@@ -94,12 +94,15 @@ public class ListingService implements IListingService {
     }
 
     @SessionScope
-    public void removeListing(int id) throws IOException, InterruptedException {
-        GraphQLService.sendQuery(
-                String.format(
-                        GraphQLService.getQueryFromFile( MutationEnum.RemoveListing.get(), true),
-                        id
-                )
+    public boolean removeListing(int id) throws IOException, InterruptedException {
+        return GraphQLService.createRemoveResponse(
+                GraphQLService.sendQuery(
+                        String.format(
+                                GraphQLService.getQueryFromFile( MutationEnum.RemoveListing.get(), true),
+                                id
+                        )
+                ),
+                "removeListing"
         );
     }
 }
