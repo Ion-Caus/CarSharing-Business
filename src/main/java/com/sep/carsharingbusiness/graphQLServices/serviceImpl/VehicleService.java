@@ -33,7 +33,8 @@ public class VehicleService implements IVehicleService {
                         GraphQLService.getQueryFromFile(QueryEnum.VehicleByOwnerCpr.get(), false),
                         cpr
                 ),
-                "vehiclesByOwner"
+                "vehiclesByOwner",
+                Vehicle.class
         );
     }
 
@@ -83,7 +84,7 @@ public class VehicleService implements IVehicleService {
 
     @SessionScope
     public boolean removeVehicle(String licenseNo) throws IOException, InterruptedException {
-        return GraphQLService.createRemoveResponse(
+        return GraphQLService.createBooleanResponse(
                 GraphQLService.sendQuery(
                         String.format(
                                 GraphQLService.getQueryFromFile(MutationEnum.RemoveVehicle.get(), true),

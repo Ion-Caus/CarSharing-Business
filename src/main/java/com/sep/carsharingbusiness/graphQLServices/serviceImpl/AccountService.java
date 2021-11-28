@@ -2,7 +2,6 @@ package com.sep.carsharingbusiness.graphQLServices.serviceImpl;
 
 import com.sep.carsharingbusiness.graphQLServices.IAccountService;
 import com.sep.carsharingbusiness.model.Account;
-import com.sep.carsharingbusiness.model.Customer;
 import com.sep.carsharingbusiness.mutations.MutationEnum;
 import com.sep.carsharingbusiness.queries.QueryEnum;
 import org.springframework.stereotype.Service;

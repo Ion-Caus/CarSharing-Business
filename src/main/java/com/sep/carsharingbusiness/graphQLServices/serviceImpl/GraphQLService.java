@@ -9,6 +9,7 @@ import com.sep.carsharingbusiness.extentions.LocalDateTimeJsonAdapter;
 import com.sep.carsharingbusiness.log.Log;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -41,7 +42,7 @@ public class GraphQLService {
         return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    public static <T> ArrayList<T> createListQuery(String query, String naming) throws IOException, InterruptedException {
+    public static <T> ArrayList<T> createListQuery(String query, String naming, Class<T> arrType) throws IOException, InterruptedException {
         HttpResponse<String> response = sendQuery(query);
 
         JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
@@ -54,8 +55,9 @@ public class GraphQLService {
 
         JsonArray arr = obj.get("data").getAsJsonObject().get(naming).getAsJsonArray();
         Log.addLog("|graphQlServices/GraphQLService.createListQuery| : Reply : " + arr);
-        return gson.fromJson(arr, new TypeToken<ArrayList<T>>() {
-        }.getType());
+
+        Type typeOfT = TypeToken.getParameterized(List.class, arrType).getType();
+        return gson.fromJson(arr, typeOfT);
     }
 
     public static <T> T createObjQuery(String query, String naming, Class<T> objType) throws IOException, InterruptedException {
@@ -73,19 +75,19 @@ public class GraphQLService {
         return gson.fromJson(obj, objType);
     }
 
-    public static boolean createRemoveResponse(HttpResponse<String> response, String naming) {
+    public static boolean createBooleanResponse(HttpResponse<String> response, String naming) {
 
         JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
 
         if (obj.has("errors")) {
             String errorMessage = obj.get("errors").getAsJsonArray().get(0).getAsJsonObject().get("message").getAsString();
-            Log.addLog("|graphQlServices/GraphQLService.createRemoveResponse| : Error : " + errorMessage);
+            Log.addLog("|graphQlServices/GraphQLService.createBooleanResponse| : Error : " + errorMessage);
             throw new InternalError(errorMessage);
         }
 
-        boolean status = Boolean.parseBoolean( obj.get("data").getAsJsonObject().get(naming).getAsString() );
+        boolean status = obj.get("data").getAsJsonObject().get(naming).getAsBoolean();
 
-        Log.addLog("|graphQlServices/GraphQLService.createRemoveResponse| : Reply : " + status);
+        Log.addLog("|graphQlServices/GraphQLService.createBooleanResponse| : Reply : " + status);
         return status;
     }
 

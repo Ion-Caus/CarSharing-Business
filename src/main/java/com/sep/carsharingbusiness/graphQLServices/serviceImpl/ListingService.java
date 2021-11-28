@@ -25,21 +25,33 @@ public class ListingService implements IListingService {
                         dateFrom,
                         dateTo
                 ),
-                "listing"
+                "listing",
+                Listing.class
         );
     }
 
     @SessionScope
     public Listing getListingById(int id) throws IOException, InterruptedException {
-        // TODO: 23.11.2021 by Ion - Create the Query to get a listing by id || also implemented it in DAL
-        return null;
-//        return GraphQLService.createListQuery(
-//                String.format(
-//                        GraphQLService.getQueryFromFile( QueryEnum.ListingById.get(), false ),
-//                        id
-//                ),
-//                "listing"
-//        );
+        return GraphQLService.createObjQuery(
+                String.format(
+                        GraphQLService.getQueryFromFile( QueryEnum.ListingById.get(), false ),
+                        id
+                ),
+                "listingById",
+                Listing.class
+        );
+    }
+
+    @Override
+    public ArrayList<Listing> getListingsByVehicle(String licenseNo) throws IOException, InterruptedException {
+        return GraphQLService.createListQuery(
+                String.format(
+                        GraphQLService.getQueryFromFile( QueryEnum.ListingsByVehicle.get(), false ),
+                        licenseNo
+                ),
+                "listingsByVehicle",
+                Listing.class
+        );
     }
 
     @SessionScope
@@ -95,7 +107,7 @@ public class ListingService implements IListingService {
 
     @SessionScope
     public boolean removeListing(int id) throws IOException, InterruptedException {
-        return GraphQLService.createRemoveResponse(
+        return GraphQLService.createBooleanResponse(
                 GraphQLService.sendQuery(
                         String.format(
                                 GraphQLService.getQueryFromFile( MutationEnum.RemoveListing.get(), true),
