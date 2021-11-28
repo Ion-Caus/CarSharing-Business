@@ -11,9 +11,9 @@ public class Vehicle {
     private int manufactureYear;
     private double mileage;
 
-    public String ownerCpr;
+    public Customer owner;
 
-    public Vehicle(String licenseNo, String brand, String model, String type, String transmission, String fuelType, int seats, int manufactureYear, double mileage, String ownerCpr) {
+    public Vehicle(String licenseNo, String brand, String model, String type, String transmission, String fuelType, int seats, int manufactureYear, double mileage, Customer owner) {
         this.licenseNo = licenseNo;
         this.brand = brand;
         this.model = model;
@@ -23,7 +23,7 @@ public class Vehicle {
         this.seats = seats;
         this.manufactureYear = manufactureYear;
         this.mileage = mileage;
-        this.ownerCpr = ownerCpr;
+        this.owner = owner;
     }
 
     public String getLicenseNo() {
@@ -98,11 +98,4 @@ public class Vehicle {
         this.mileage = mileage;
     }
 
-    public String getOwnerCpr() {
-        return ownerCpr;
-    }
-
-    public void setOwnerCpr(String ownerCpr) {
-        this.ownerCpr = ownerCpr;
-    }
 }

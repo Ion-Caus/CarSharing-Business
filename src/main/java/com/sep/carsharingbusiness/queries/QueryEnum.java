@@ -3,6 +3,8 @@ package com.sep.carsharingbusiness.queries;
 public enum QueryEnum {
 
     ListingsByLocationAndDates("GetListingByLocationAndDates.graphql"),
+    ListingsByVehicle("GetListingsByVehicle.graphql"),
+    ListingById("GetListingById.graphql"),
 
     VehicleByLicenseNo("GetVehicleByLicenseNo.graphql"),
     VehicleByOwnerCpr("GetVehicleByOwnerCpr.graphql"),

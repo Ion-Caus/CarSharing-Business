@@ -33,12 +33,11 @@ public class UserController {
             return gson.toJson(userLogic.login(account));
 
         } catch (IOException | InterruptedException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
             Log.addLog("|restControllers/AccountController.login| : Error : " + e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
         catch (IllegalAccessException | InternalError e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getLocalizedMessage());
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 
@@ -50,9 +49,8 @@ public class UserController {
             return gson.toJson(userLogic.register(account));
 
         } catch (IOException | InterruptedException |  NoSuchAlgorithmException e) {
-            e.printStackTrace();
             Log.addLog("|restControllers/AccountController.register| : Error : " + e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 }

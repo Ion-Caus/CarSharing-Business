@@ -17,7 +17,7 @@ public class ListingService implements IListingService {
 
 
     @SessionScope
-    public ArrayList<Listing> getListing(String location, LocalDateTime dateFrom, LocalDateTime dateTo) throws IOException, InterruptedException {
+    public ArrayList<Listing> getListings(String location, LocalDateTime dateFrom, LocalDateTime dateTo) throws IOException, InterruptedException {
         return GraphQLService.createListQuery(
                 String.format(
                         GraphQLService.getQueryFromFile( QueryEnum.ListingsByLocationAndDates.get(), false ),
@@ -25,7 +25,32 @@ public class ListingService implements IListingService {
                         dateFrom,
                         dateTo
                 ),
-                "listing"
+                "listing",
+                Listing.class
+        );
+    }
+
+    @SessionScope
+    public Listing getListingById(int id) throws IOException, InterruptedException {
+        return GraphQLService.createObjQuery(
+                String.format(
+                        GraphQLService.getQueryFromFile( QueryEnum.ListingById.get(), false ),
+                        id
+                ),
+                "listingById",
+                Listing.class
+        );
+    }
+
+    @Override
+    public ArrayList<Listing> getListingsByVehicle(String licenseNo) throws IOException, InterruptedException {
+        return GraphQLService.createListQuery(
+                String.format(
+                        GraphQLService.getQueryFromFile( QueryEnum.ListingsByVehicle.get(), false ),
+                        licenseNo
+                ),
+                "listingsByVehicle",
+                Listing.class
         );
     }
 
@@ -81,12 +106,15 @@ public class ListingService implements IListingService {
     }
 
     @SessionScope
-    public void removeListing(int id) throws IOException, InterruptedException {
-        GraphQLService.sendQuery(
-                String.format(
-                        GraphQLService.getQueryFromFile( MutationEnum.RemoveListing.get(), true),
-                        id
-                )
+    public boolean removeListing(int id) throws IOException, InterruptedException {
+        return GraphQLService.createBooleanResponse(
+                GraphQLService.sendQuery(
+                        String.format(
+                                GraphQLService.getQueryFromFile( MutationEnum.RemoveListing.get(), true),
+                                id
+                        )
+                ),
+                "removeListing"
         );
     }
 }

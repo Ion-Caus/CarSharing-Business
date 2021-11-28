@@ -1,9 +1,11 @@
 package com.sep.carsharingbusiness.restControllers;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.sep.carsharingbusiness.graphQLServices.IVehicleService;
 import com.sep.carsharingbusiness.log.Log;
+import com.sep.carsharingbusiness.logic.IVehicleLogic;
 import com.sep.carsharingbusiness.model.Vehicle;
+import com.sep.carsharingbusiness.extentions.DoubleJsonAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +16,16 @@ import java.util.ArrayList;
 
 @RestController
 public class VehicleController {
-    private final IVehicleService vehicleService;
+    private final IVehicleLogic vehicleLogic;
 
     private final Gson gson;
 
     @Autowired
-    public VehicleController(IVehicleService vehicleService) {
-        this.vehicleService = vehicleService;
-        gson = new Gson();
+    public VehicleController(IVehicleLogic vehicleLogic) {
+        this.vehicleLogic = vehicleLogic;
+        gson = new GsonBuilder()
+                .registerTypeAdapter(Double.class,  new DoubleJsonAdapter())
+                .create();
     }
 
 
@@ -29,11 +33,10 @@ public class VehicleController {
     public synchronized String getVehicle(@RequestParam(value = "licenseNo") String licenseNo) {
         try {
             Log.addLog("|restControllers/VehicleController.getVehicle| : Request : LicenseNo:" + licenseNo);
-            Vehicle vehicle = vehicleService.getVehicle(licenseNo);
+            Vehicle vehicle = vehicleLogic.getVehicle(licenseNo);
             return gson.toJson(vehicle);
 
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (IOException | InterruptedException | InternalError e) {
             Log.addLog("|restControllers/VehicleController.getVehicle| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }
@@ -43,11 +46,10 @@ public class VehicleController {
     public synchronized String getVehiclesByOwnerCpr(@RequestParam(value = "cpr") String cpr) {
         try {
             Log.addLog("|restControllers/VehicleController.getVehicleByOwnerCpr| : Request : Cpr:" + cpr);
-            ArrayList<Vehicle> vehicles = vehicleService.getVehiclesByOwnerCpr(cpr);
+            ArrayList<Vehicle> vehicles = vehicleLogic.getVehiclesByOwnerCpr(cpr);
             return gson.toJson(vehicles);
 
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
             Log.addLog("|restControllers/VehicleController.getVehicleByOwnerCpr| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }
@@ -58,41 +60,38 @@ public class VehicleController {
         try {
             Log.addLog("|restControllers/VehicleController.addVehicle| : Request : " + json);
             Vehicle vehicle = gson.fromJson(json, Vehicle.class);
-            return gson.toJson(vehicleService.addVehicle(vehicle));
+            return gson.toJson(vehicleLogic.addVehicle(vehicle));
 
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (IOException | InterruptedException | IllegalArgumentException e) {
             Log.addLog("|restControllers/VehicleController.addVehicle| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }
     }
 
-    @PatchMapping("/vehicles")
-    public synchronized String updateVehicle(@RequestBody Vehicle vehicle, @RequestParam(value = "licenseNo") String licenseNo) {
+    @PatchMapping("/vehicles/{licenseNo}")
+    public synchronized String updateVehicle(@RequestBody Vehicle vehicle, @PathVariable String licenseNo) {
         if (!vehicle.getLicenseNo().equals(licenseNo)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The licenceNo from param does not match with the vehicle licenseNo.");
         }
         try {
-            String result = gson.toJson(vehicleService.updateVehicle(vehicle));
+            String result = gson.toJson(vehicleLogic.updateVehicle(vehicle));
             Log.addLog("|restControllers/VehicleController.updateVehicle| : Reply :  " + result);
             return result;
 
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
             Log.addLog("|restControllers/VehicleController.updateVehicle| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }
     }
 
-    @DeleteMapping("/vehicles")
-    public synchronized HttpStatus removeVehicle(@RequestParam(value = "licenseNo") String licenseNo) {
+    @DeleteMapping("/vehicles/{licenseNo}")
+    public synchronized HttpStatus removeVehicle(@PathVariable String licenseNo) {
         try {
             Log.addLog("|restControllers/VehicleController.removeVehicle| : Request : " + licenseNo);
-            vehicleService.removeVehicle(licenseNo);
+            vehicleLogic.removeVehicle(licenseNo);
             return HttpStatus.OK;
 
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
             Log.addLog("|restControllers/VehicleController.removeVehicle| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }

@@ -18,7 +18,7 @@ public class VehicleService implements IVehicleService {
     public Vehicle getVehicle(String licenseNo) throws IOException, InterruptedException {
         return GraphQLService.createObjQuery(
                 String.format(
-                        GraphQLService.getQueryFromFile( QueryEnum.VehicleByLicenseNo.get(), false),
+                        GraphQLService.getQueryFromFile(QueryEnum.VehicleByLicenseNo.get(), false),
                         licenseNo
                 ),
                 "vehicle",
@@ -30,10 +30,11 @@ public class VehicleService implements IVehicleService {
     public ArrayList<Vehicle> getVehiclesByOwnerCpr(String cpr) throws IOException, InterruptedException {
         return GraphQLService.createListQuery(
                 String.format(
-                        GraphQLService.getQueryFromFile( QueryEnum.VehicleByOwnerCpr.get(), false),
+                        GraphQLService.getQueryFromFile(QueryEnum.VehicleByOwnerCpr.get(), false),
                         cpr
                 ),
-                "vehiclesByOwner"
+                "vehiclesByOwner",
+                Vehicle.class
         );
     }
 
@@ -41,7 +42,7 @@ public class VehicleService implements IVehicleService {
     public Vehicle addVehicle(Vehicle vehicle) throws IOException, InterruptedException {
         return GraphQLService.createObjQuery(
                 String.format(
-                        GraphQLService.getQueryFromFile( MutationEnum.AddVehicle.get(), true),
+                        GraphQLService.getQueryFromFile(MutationEnum.AddVehicle.get(), true),
                         vehicle.getLicenseNo(),
                         vehicle.getBrand(),
                         vehicle.getModel(),
@@ -50,7 +51,11 @@ public class VehicleService implements IVehicleService {
                         vehicle.getType(),
                         vehicle.getSeats(),
                         vehicle.getMileage(),
-                        vehicle.getManufactureYear()
+                        vehicle.getManufactureYear(),
+                        vehicle.owner.getCpr(),
+                        vehicle.owner.getFirstName(),
+                        vehicle.owner.getLastName(),
+                        vehicle.owner.getPhoneNo()
                 ),
                 "addVehicle",
                 Vehicle.class
@@ -61,7 +66,7 @@ public class VehicleService implements IVehicleService {
     public Vehicle updateVehicle(Vehicle vehicle) throws IOException, InterruptedException {
         return GraphQLService.createObjQuery(
                 String.format(
-                        GraphQLService.getQueryFromFile( MutationEnum.UpdateVehicle.get(), true),
+                        GraphQLService.getQueryFromFile(MutationEnum.UpdateVehicle.get(), true),
                         vehicle.getLicenseNo(),
                         vehicle.getBrand(),
                         vehicle.getModel(),
@@ -78,12 +83,15 @@ public class VehicleService implements IVehicleService {
     }
 
     @SessionScope
-    public void removeVehicle(String licenseNo) throws IOException, InterruptedException {
-        GraphQLService.sendQuery(
-                String.format(
-                        GraphQLService.getQueryFromFile( MutationEnum.RemoveVehicle.get(), true),
-                        licenseNo
-                )
+    public boolean removeVehicle(String licenseNo) throws IOException, InterruptedException {
+        return GraphQLService.createBooleanResponse(
+                GraphQLService.sendQuery(
+                        String.format(
+                                GraphQLService.getQueryFromFile(MutationEnum.RemoveVehicle.get(), true),
+                                licenseNo
+                        )
+                ),
+                "removeVehicle"
         );
     }
 }

@@ -9,6 +9,12 @@ mutation {
       seats: %s
       mileage: %s
       manufactureYear: %s
+      owner: {
+             cpr: \"%s\"
+             firstName: \"%s\"
+              lastName: \"%s\"
+              phoneNo: \"%s\"
+      }
     }) {
       licenseNo
       model
