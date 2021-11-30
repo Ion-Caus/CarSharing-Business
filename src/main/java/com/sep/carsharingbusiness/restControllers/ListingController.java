@@ -48,13 +48,13 @@ public class ListingController {
     }
 
     @GetMapping(value = "/listings/vehicle")
-    public synchronized String getListingByVehicle(@RequestParam(value = "licenseNo") String licenseNo) {
+    public synchronized String getListingsByVehicle(@RequestParam(value = "licenseNo") String licenseNo) {
         try {
-            Log.addLog("|restControllers/ListingController.getListingByVehicle| : Request : LicenseNo: " + licenseNo);
+            Log.addLog("|restControllers/ListingController.getListingsByVehicle| : Request : LicenseNo: " + licenseNo);
             return gson.toJson(listingLogic.getListingsByVehicle(licenseNo));
 
         } catch (IOException | InterruptedException e) {
-            Log.addLog("|restControllers/ListingController.getListingByVehicle| : Error : " + e.getMessage());
+            Log.addLog("|restControllers/ListingController.getListingsByVehicle| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }
     }
@@ -75,6 +75,7 @@ public class ListingController {
     public synchronized String addListing(@RequestBody String json) {
         try {
             Log.addLog("|restControllers/ListingController.addListing| : Request : " + json);
+            
             Listing listing = gson.fromJson(json, Listing.class);
             return gson.toJson(listingLogic.addListing(listing));
 

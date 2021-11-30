@@ -23,6 +23,7 @@ public class ListingLogic implements IListingLogic {
 
     @SessionScope
     public ArrayList<Listing> getListings(String location, LocalDateTime dateFrom, LocalDateTime dateTo) throws IOException, InterruptedException {
+        // TODO: 29.11.2021 by Ion - check is vehicle is not rented on this interval 
         return listingService.getListings(location, dateFrom, dateTo);
     }
 
