@@ -1,4 +1,4 @@
-package com.sep.carsharingbusiness.logic.loginImpl;
+package com.sep.carsharingbusiness.logic.logicImpl;
 
 import com.sep.carsharingbusiness.graphQLServices.IAccountService;
 import com.sep.carsharingbusiness.graphQLServices.ICustomerService;
