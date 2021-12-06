@@ -47,7 +47,7 @@ public class UserLogic implements IUserLogic {
 
         customerService.addCustomer(account.customer);
         Account registered = accountService.addAccount(account);
-        return registered.customer;
+        return customerService.getCustomer(registered.customer.getCpr());
     }
 
     private String hash(String password) throws NoSuchAlgorithmException {

@@ -1,0 +1,26 @@
+mutation {
+  updateLease(input: {
+    id: %s
+    leasedFrom: \"%s\"
+    leasedTo: \"%s\"
+    isCanceled: false
+    listing: {
+      id: %s
+    }
+    customer: {
+      cpr: \"%s\"
+    }
+  })
+  {
+    id
+    leasedFrom
+    leasedTo
+    canceled
+    listing {
+      id
+    }
+    customer {
+      cpr
+    }
+  }
+}

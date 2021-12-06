@@ -1,0 +1,22 @@
+mutation {
+  addLease(input: {
+    leasedFrom: \"%s\"
+    leasedTo: \"%s\"
+    listing: {
+      id: %s
+    }
+    customer: {
+      cpr: \"%s\"
+    }
+  }) {
+    id
+    leasedFrom
+    leasedTo
+    listing {
+      id
+    }
+    customer {
+        cpr
+    }
+  }
+}

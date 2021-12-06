@@ -9,5 +9,8 @@ query {
         fuelType
         transmission
         type
+        owner {
+            cpr
+        }
   }
 }

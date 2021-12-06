@@ -64,15 +64,7 @@ public class ListingService implements IListingService {
                         listing.getLocation(),
                         listing.getDateFrom(),
                         listing.getDateTo(),
-                        listing.getVehicle().getLicenseNo(),
-                        listing.vehicle.getBrand(),
-                        listing.vehicle.getModel(),
-                        listing.vehicle.getTransmission(),
-                        listing.vehicle.getFuelType(),
-                        listing.vehicle.getType(),
-                        listing.vehicle.getSeats(),
-                        listing.vehicle.getMileage(),
-                        listing.vehicle.getManufactureYear()
+                        listing.vehicle.getLicenseNo()
                 ),
                 "addListing",
                 Listing.class
@@ -86,19 +78,10 @@ public class ListingService implements IListingService {
                         GraphQLService.getQueryFromFile( MutationEnum.UpdateListing.get(), true),
                         listing.getId(),
                         listing.getPrice(),
-                        listing.getListedDate(),
                         listing.getLocation(),
                         listing.getDateFrom(),
                         listing.getDateTo(),
-                        listing.getVehicle().getLicenseNo(),
-                        listing.vehicle.getBrand(),
-                        listing.vehicle.getModel(),
-                        listing.vehicle.getTransmission(),
-                        listing.vehicle.getFuelType(),
-                        listing.vehicle.getType(),
-                        listing.vehicle.getSeats(),
-                        listing.vehicle.getMileage(),
-                        listing.vehicle.getManufactureYear()
+                        listing.vehicle.getLicenseNo()
                 ),
                 "updateListing",
                 Listing.class

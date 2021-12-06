@@ -29,7 +29,7 @@ public class LeaseController {
     }
 
 
-    @GetMapping(value = "/listings/{id}")
+    @GetMapping(value = "/leases/{id}")
     public synchronized String getLeaseById(@PathVariable int id) {
         try {
             Log.addLog("|restControllers/LeaseController.getLeaseById| : Request : Id:" + id );

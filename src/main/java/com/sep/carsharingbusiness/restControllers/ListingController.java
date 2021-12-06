@@ -86,7 +86,8 @@ public class ListingController {
     }
 
     @PatchMapping("/listings/{id}")
-    public synchronized String updateListing(@RequestBody Listing listing, @PathVariable int id) {
+    public synchronized String updateListing(@RequestBody String json, @PathVariable int id) {
+        Listing listing = gson.fromJson(json, Listing.class);
         if (listing.getId() != id) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The id from param does not match with the listing's id.");
         }

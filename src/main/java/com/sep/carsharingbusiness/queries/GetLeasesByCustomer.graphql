@@ -1,0 +1,14 @@
+query {
+  leasesByCustomer(cpr: \"%s\") {
+    id
+    leasedFrom
+    leasedTo
+    canceled
+    listing {
+      id
+    }
+    customer {
+      cpr
+    }
+  }
+}

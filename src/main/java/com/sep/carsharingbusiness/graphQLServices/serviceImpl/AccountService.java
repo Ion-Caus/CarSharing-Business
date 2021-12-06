@@ -31,10 +31,7 @@ public class AccountService implements IAccountService {
                         GraphQLService.getQueryFromFile( MutationEnum.AddAccount.get(), true),
                         account.getUsername(),
                         account.getPassword(),
-                        account.customer.getCpr(),
-                        account.customer.getFirstName(),
-                        account.customer.getLastName(),
-                        account.customer.getPhoneNo()
+                        account.customer.getCpr()
                 ),
                 "addAccount",
                 Account.class

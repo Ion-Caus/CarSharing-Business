@@ -13,6 +13,10 @@ public enum MutationEnum {
     UpdateCustomer("UpdateCustomer.graphql"),
     RemoveCustomer("RemoveCustomer.graphql"),
 
+    AddLease("AddLease.graphql"),
+    UpdateLease("UpdateLease.graphql"),
+    RemoveLease("RemoveLease.graphql"),
+
     AddAccount("AddAccount.graphql");
 
     private final String fileName;

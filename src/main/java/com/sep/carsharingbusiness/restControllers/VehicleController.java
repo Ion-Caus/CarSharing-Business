@@ -69,7 +69,8 @@ public class VehicleController {
     }
 
     @PatchMapping("/vehicles/{licenseNo}")
-    public synchronized String updateVehicle(@RequestBody Vehicle vehicle, @PathVariable String licenseNo) {
+    public synchronized String updateVehicle(@RequestBody String json, @PathVariable String licenseNo) {
+        Vehicle vehicle = gson.fromJson(json, Vehicle.class);
         if (!vehicle.getLicenseNo().equals(licenseNo)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The licenceNo from param does not match with the vehicle licenseNo.");
         }

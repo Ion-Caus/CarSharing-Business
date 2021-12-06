@@ -52,10 +52,7 @@ public class VehicleService implements IVehicleService {
                         vehicle.getSeats(),
                         vehicle.getMileage(),
                         vehicle.getManufactureYear(),
-                        vehicle.owner.getCpr(),
-                        vehicle.owner.getFirstName(),
-                        vehicle.owner.getLastName(),
-                        vehicle.owner.getPhoneNo()
+                        vehicle.owner.getCpr()
                 ),
                 "addVehicle",
                 Vehicle.class
@@ -75,7 +72,8 @@ public class VehicleService implements IVehicleService {
                         vehicle.getType(),
                         vehicle.getSeats(),
                         vehicle.getMileage(),
-                        vehicle.getManufactureYear()
+                        vehicle.getManufactureYear(),
+                        vehicle.owner.getCpr()
                 ),
                 "updateVehicle",
                 Vehicle.class
