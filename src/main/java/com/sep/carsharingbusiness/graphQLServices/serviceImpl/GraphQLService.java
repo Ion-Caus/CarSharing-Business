@@ -70,7 +70,7 @@ public class GraphQLService {
             Log.addLog("|graphQlServices/GraphQLService.createObjQuery| : Error : " + errorMessage);
             throw new InternalError(errorMessage);
         }
-        System.out.println(obj);
+
         obj = obj.get("data").getAsJsonObject().get(naming).getAsJsonObject();
         Log.addLog("|graphQlServices/GraphQLService.createObjQuery| : Reply : " + obj);
         return gson.fromJson(obj, objType);

@@ -3,7 +3,7 @@ mutation {
     id: %s
     leasedFrom: \"%s\"
     leasedTo: \"%s\"
-    isCanceled: false
+    isCanceled: %s
     listing: {
       id: %s
     }

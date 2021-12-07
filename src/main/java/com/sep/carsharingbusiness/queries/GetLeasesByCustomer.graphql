@@ -6,6 +6,17 @@ query {
     canceled
     listing {
       id
+      price
+      vehicle {
+        licenseNo
+        brand
+        model
+        owner {
+          firstName
+          lastName
+          phoneNo
+        }
+      }
     }
     customer {
       cpr

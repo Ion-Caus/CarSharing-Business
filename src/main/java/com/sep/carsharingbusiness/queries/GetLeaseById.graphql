@@ -1,5 +1,6 @@
 query{
   lease(id: %s) {
+    id
     leasedFrom
     leasedTo
     canceled
