@@ -8,6 +8,8 @@ query {
       brand
       model
       type
+      seats
+      transmission
     }
   }
 }
