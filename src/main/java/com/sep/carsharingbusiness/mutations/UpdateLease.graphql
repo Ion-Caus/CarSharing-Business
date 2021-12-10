@@ -4,6 +4,7 @@ mutation {
     leasedFrom: \"%s\"
     leasedTo: \"%s\"
     isCanceled: %s
+    totalPrice: %s
     listing: {
       id: %s
     }

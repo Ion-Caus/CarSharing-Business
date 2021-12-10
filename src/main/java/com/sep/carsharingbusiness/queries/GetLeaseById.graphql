@@ -4,6 +4,7 @@ query{
     leasedFrom
     leasedTo
     canceled
+    totalPrice
     listing {
       id
       location

@@ -57,6 +57,7 @@ public class LeaseService implements ILeaseService {
                         GraphQLService.getQueryFromFile( MutationEnum.AddLease.get(), true),
                         lease.getLeasedFrom(),
                         lease.getLeasedTo(),
+                        lease.getTotalPrice(),
                         lease.listing.getId(),
                         lease.customer.getCpr()
                 ),
@@ -74,6 +75,7 @@ public class LeaseService implements ILeaseService {
                         lease.getLeasedFrom(),
                         lease.getLeasedTo(),
                         lease.isCanceled(),
+                        lease.getTotalPrice(),
                         lease.listing.getId(),
                         lease.customer.getCpr()
                 ),
