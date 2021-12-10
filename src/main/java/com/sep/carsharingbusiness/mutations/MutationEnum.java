@@ -17,7 +17,9 @@ public enum MutationEnum {
     UpdateLease("UpdateLease.graphql"),
     RemoveLease("RemoveLease.graphql"),
 
-    AddAccount("AddAccount.graphql");
+    AddAccount("AddAccount.graphql"),
+
+    AddCoupon("AddCoupon.graphql");
 
     private final String fileName;
 

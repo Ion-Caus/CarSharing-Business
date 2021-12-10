@@ -15,7 +15,9 @@ public enum QueryEnum {
 
     CustomerByCpr("GetCustomerByCpr.graphql"),
 
-    AccountByUsername("GetAccountByUsername.graphql");
+    AccountByUsername("GetAccountByUsername.graphql"),
+
+    CouponByCode("GetCouponByCode.graphql");
 
     private final String fileName;
 

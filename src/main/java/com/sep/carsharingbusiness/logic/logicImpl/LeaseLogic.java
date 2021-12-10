@@ -1,24 +1,31 @@
 package com.sep.carsharingbusiness.logic.logicImpl;
 
+import com.sep.carsharingbusiness.graphQLServices.ICouponService;
 import com.sep.carsharingbusiness.graphQLServices.ILeaseService;
 import com.sep.carsharingbusiness.logic.ILeaseLogic;
+import com.sep.carsharingbusiness.model.Coupon;
 import com.sep.carsharingbusiness.model.Lease;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 @Service
 public class LeaseLogic implements ILeaseLogic {
+    private final ICouponService couponService;
     private final ILeaseService leaseService;
     private final DateTimeFormatter formatter;
 
     @Autowired
-    public LeaseLogic(ILeaseService leaseService) {
+    public LeaseLogic(ILeaseService leaseService, ICouponService couponService) {
         this.leaseService = leaseService;
+        this.couponService = couponService;
         this.formatter = DateTimeFormatter.ofPattern("yyyy MMM dd HH:mm");
     }
 
@@ -37,18 +44,22 @@ public class LeaseLogic implements ILeaseLogic {
         return leaseService.getLeasesByCustomer(cpr);
     }
 
-    private boolean isValidLeasingDates(Lease lease, Lease newLease) {
-        // TODO: 03.12.2021 By Ion Check the intervals.
-        return true;
-    }
 
     @SessionScope
     public Lease addLease(Lease lease) throws IOException, InterruptedException, IllegalArgumentException {
-        // TODO: 03.12.2021 By Ion Check if the Listing/Vehicle is available in that specific interval
-        // get all the leases for that listing
-        // check the datetime From and To
+        return leaseService.addLease(lease);
+    }
+
+    private boolean isValidLeasingDates(Lease lease, Lease newLease) {
+        return newLease.getLeasedTo().isBefore(lease.getLeasedFrom())
+                || newLease.getLeasedFrom().isAfter(lease.getLeasedTo());
+    }
+
+    private boolean validateLease(Lease lease) throws IOException, InterruptedException {
+        // TODO: 10.12.2021 by Ion - get the leases for this listing and these dates
         ArrayList<Lease> leasesForThisListing = leaseService.getLeasesByListing(lease.listing.getId());
         for (Lease l : leasesForThisListing) {
+            if (l.isCanceled()) continue;
             if (!isValidLeasingDates(l, lease)) {
                 throw new IllegalArgumentException(
                         String.format(
@@ -59,7 +70,29 @@ public class LeaseLogic implements ILeaseLogic {
                         ));
             }
         }
-        return null;
+        return true;
+    }
+
+    @SessionScope
+    public Lease validateLease(Lease lease, String couponCode) throws IOException, InterruptedException, IllegalArgumentException, InternalError {
+        double discount = 0;
+        if (!couponCode.isEmpty() && !couponCode.equals("default")) {
+            Coupon coupon = couponService.getCoupon(couponCode);
+            discount = coupon.getDiscount();
+        }
+
+        validateLease(lease);
+
+        //calculate the total price by hours and coupon discount;
+        long hoursBetween = ChronoUnit.HOURS.between(lease.getLeasedFrom(), lease.getLeasedTo());
+        double price = (hoursBetween * lease.listing.getPrice().longValue()) / 24D;
+        double totalPrice = price * (1 - discount);
+
+        BigDecimal leaseTotalPrice = new BigDecimal(totalPrice);
+        leaseTotalPrice = leaseTotalPrice.setScale(2, RoundingMode.CEILING);
+
+        lease.setTotalPrice(leaseTotalPrice);
+        return lease;
     }
 
     @SessionScope

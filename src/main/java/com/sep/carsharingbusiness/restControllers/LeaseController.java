@@ -11,8 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 public class LeaseController {
@@ -79,7 +82,20 @@ public class LeaseController {
         }
     }
 
-    // TODO: 03.12.2021 by Ion - Leave this as Delete or change it to Patch(Update) ??
+    @PostMapping(value = "/leases/coupons/{code}")
+    public synchronized String validateLease(@RequestBody String json, @PathVariable(value = "code", required = false) String code) {
+        try {
+            Log.addLog("|restControllers/LeaseController.validateLease| : Request : Coupon: " + code + " | " + json );
+
+            Lease lease = gson.fromJson(json, Lease.class);
+            return gson.toJson(leaseLogic.validateLease(lease, code));
+
+        } catch (IOException | InterruptedException | IllegalArgumentException | InternalError e) {
+            Log.addLog("|restControllers/LeaseController.validateLease| : Error : " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+        }
+    }
+
     @DeleteMapping("/leases/{id}")
     public synchronized HttpStatus cancelLease(@PathVariable int id) {
         try {
