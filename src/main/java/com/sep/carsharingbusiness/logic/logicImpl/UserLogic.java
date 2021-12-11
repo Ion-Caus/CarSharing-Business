@@ -1,4 +1,4 @@
-package com.sep.carsharingbusiness.logic.loginImpl;
+package com.sep.carsharingbusiness.logic.logicImpl;
 
 import com.sep.carsharingbusiness.graphQLServices.IAccountService;
 import com.sep.carsharingbusiness.graphQLServices.ICustomerService;
@@ -47,7 +47,7 @@ public class UserLogic implements IUserLogic {
 
         customerService.addCustomer(account.customer);
         Account registered = accountService.addAccount(account);
-        return registered.customer;
+        return customerService.getCustomer(registered.customer.getCpr());
     }
 
     private String hash(String password) throws NoSuchAlgorithmException {

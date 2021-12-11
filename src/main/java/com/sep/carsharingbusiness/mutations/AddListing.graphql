@@ -6,22 +6,14 @@ mutation {
     dateFrom: \"%s\"
     dateTo: \"%s\"
     vehicle: {
-      licenseNo: \"%s\"
-      brand: \"%s\"
-      model: \"%s\"
-      transmission: \"%s\"
-      fuelType: \"%s\"
-      type: \"%s\"
-      seats: %s
-      mileage: %s
-      manufactureYear: %s
+        licenseNo: \"%s\"
     }
   })  {
+    id
     price
     location
     vehicle {
-      type
-      model
+      licenseNo
     }
   }
 }

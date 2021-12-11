@@ -1,4 +1,4 @@
-package com.sep.carsharingbusiness.logic.loginImpl;
+package com.sep.carsharingbusiness.logic.logicImpl;
 
 import com.sep.carsharingbusiness.graphQLServices.IListingService;
 import com.sep.carsharingbusiness.logic.IListingLogic;
@@ -23,6 +23,7 @@ public class ListingLogic implements IListingLogic {
 
     @SessionScope
     public ArrayList<Listing> getListings(String location, LocalDateTime dateFrom, LocalDateTime dateTo) throws IOException, InterruptedException {
+        // TODO: 29.11.2021 by Ion - check is vehicle is not rented on this interval 
         return listingService.getListings(location, dateFrom, dateTo);
     }
 

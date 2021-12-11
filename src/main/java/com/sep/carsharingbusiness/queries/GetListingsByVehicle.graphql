@@ -4,6 +4,8 @@ query {
     listedDate
     price
     location
+    dateFrom
+    dateTo
     vehicle {
       licenseNo
     }

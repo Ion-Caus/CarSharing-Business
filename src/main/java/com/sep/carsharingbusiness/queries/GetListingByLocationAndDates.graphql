@@ -1,5 +1,6 @@
 query {
   listing(location: \"%s\", dateFrom: \"%s\", dateTo: \"%s\") {
+    id
     price
     location
     vehicle{
@@ -7,6 +8,8 @@ query {
       brand
       model
       type
+      seats
+      transmission
     }
   }
 }

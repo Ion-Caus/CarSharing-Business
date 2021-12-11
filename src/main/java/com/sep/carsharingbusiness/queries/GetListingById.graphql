@@ -3,6 +3,7 @@ query {
     id
     price
     location
+    listedDate
     dateTo
     dateFrom
     vehicle{
