@@ -10,6 +10,7 @@ query {
       type
       seats
       transmission
+      fuelType
     }
   }
 }

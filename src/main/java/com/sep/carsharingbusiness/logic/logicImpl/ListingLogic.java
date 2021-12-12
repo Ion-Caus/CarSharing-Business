@@ -39,6 +39,10 @@ public class ListingLogic implements IListingLogic {
 
     @SessionScope
     public Listing addListing(Listing listing) throws IOException, InterruptedException, IllegalArgumentException {
+        if(listing.getDateTo().isBefore(listing.getDateFrom())) {
+            throw new IllegalArgumentException("Listing's 'date to' cannot be before its 'date from'");
+
+        }
         ArrayList<Listing> listings =  listingService.getListingsByVehicle(listing.vehicle.getLicenseNo());
         if (!listings.isEmpty()) {
             throw new IllegalArgumentException("A listing is already created for the vehicle with licenseNo " + listing.vehicle.getLicenseNo());

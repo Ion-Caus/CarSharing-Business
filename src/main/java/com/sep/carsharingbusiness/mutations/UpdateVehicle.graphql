@@ -12,6 +12,7 @@ mutation {
         owner: {
           cpr: \"%s\"
         }
+        isApproved: %s
   })
   {
       licenseNo

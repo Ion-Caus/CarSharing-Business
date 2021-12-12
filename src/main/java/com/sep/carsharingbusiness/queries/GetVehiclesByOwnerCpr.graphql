@@ -9,6 +9,7 @@ query {
         fuelType
         transmission
         type
+        isApproved
         owner {
             cpr
         }

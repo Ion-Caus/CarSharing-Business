@@ -35,6 +35,11 @@ public class VehicleLogic implements IVehicleLogic {
     }
 
     @SessionScope
+    public ArrayList<Vehicle> getVehiclesWaitingForApproval() throws IOException, InterruptedException {
+        return vehicleService.getVehiclesByApprovalStatus(false);
+    }
+
+    @SessionScope
     public Vehicle addVehicle(Vehicle vehicle) throws IOException, InterruptedException, IllegalArgumentException {
         try {
             vehicleService.getVehicle(vehicle.getLicenseNo());

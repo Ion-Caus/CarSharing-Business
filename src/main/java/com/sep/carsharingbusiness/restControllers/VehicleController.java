@@ -1,7 +1,6 @@
 package com.sep.carsharingbusiness.restControllers;
 
 import com.google.gson.*;
-import com.sep.carsharingbusiness.graphQLServices.IVehicleService;
 import com.sep.carsharingbusiness.log.Log;
 import com.sep.carsharingbusiness.logic.IVehicleLogic;
 import com.sep.carsharingbusiness.model.Vehicle;
@@ -51,6 +50,19 @@ public class VehicleController {
 
         } catch (IOException | InterruptedException e) {
             Log.addLog("|restControllers/VehicleController.getVehicleByOwnerCpr| : Error : " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+        }
+    }
+
+    @GetMapping(value = "/queue/vehicles")
+    public synchronized String getVehiclesWaitingForApproval() {
+        try {
+            Log.addLog("|restControllers/VehicleController.getVehiclesWaitingForApproval| : Request");
+            ArrayList<Vehicle> vehicles = vehicleLogic.getVehiclesWaitingForApproval();
+            return gson.toJson(vehicles);
+
+        } catch (IOException | InterruptedException e) {
+            Log.addLog("|restControllers/VehicleController.getVehiclesWaitingForApproval| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }
     }

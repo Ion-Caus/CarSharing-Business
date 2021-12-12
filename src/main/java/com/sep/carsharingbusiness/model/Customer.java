@@ -5,12 +5,14 @@ public class Customer {
     private  String firstName;
     private  String lastName;
     private  String phoneNo;
+    private int accessLevel;
 
-    public Customer(String cpr, String firstName, String lastName, String phoneNo) {
+    public Customer(String cpr, String firstName, String lastName, String phoneNo, int accessLevel) {
         this.cpr = cpr;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNo = phoneNo;
+        this.accessLevel = accessLevel;
     }
 
     public String getCpr() {
@@ -43,5 +45,13 @@ public class Customer {
 
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
+    }
+
+    public int getAccessLevel() {
+        return accessLevel;
+    }
+
+    public void setAccessLevel(int accessLevel) {
+        this.accessLevel = accessLevel;
     }
 }

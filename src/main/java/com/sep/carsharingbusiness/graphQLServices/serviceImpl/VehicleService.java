@@ -30,10 +30,22 @@ public class VehicleService implements IVehicleService {
     public ArrayList<Vehicle> getVehiclesByOwnerCpr(String cpr) throws IOException, InterruptedException {
         return GraphQLService.createListQuery(
                 String.format(
-                        GraphQLService.getQueryFromFile(QueryEnum.VehicleByOwnerCpr.get(), false),
+                        GraphQLService.getQueryFromFile(QueryEnum.VehiclesByOwnerCpr.get(), false),
                         cpr
                 ),
                 "vehiclesByOwner",
+                Vehicle.class
+        );
+    }
+
+    @Override
+    public ArrayList<Vehicle> getVehiclesByApprovalStatus(boolean isApproved) throws IOException, InterruptedException {
+        return GraphQLService.createListQuery(
+                String.format(
+                        GraphQLService.getQueryFromFile(QueryEnum.VehiclesByApprovalStatus.get(), false),
+                        isApproved
+                ),
+                "vehiclesByApprovalStatus",
                 Vehicle.class
         );
     }
@@ -73,7 +85,8 @@ public class VehicleService implements IVehicleService {
                         vehicle.getSeats(),
                         vehicle.getMileage(),
                         vehicle.getManufactureYear(),
-                        vehicle.owner.getCpr()
+                        vehicle.owner.getCpr(),
+                        vehicle.isApproved()
                 ),
                 "updateVehicle",
                 Vehicle.class
