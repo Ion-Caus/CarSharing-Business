@@ -11,7 +11,8 @@ public enum QueryEnum {
     ListingById("GetListingById.graphql"),
 
     VehicleByLicenseNo("GetVehicleByLicenseNo.graphql"),
-    VehicleByOwnerCpr("GetVehicleByOwnerCpr.graphql"),
+    VehiclesByOwnerCpr("GetVehiclesByOwnerCpr.graphql"),
+    VehiclesByApprovalStatus("GetVehiclesByApprovalStatus.graphql"),
 
     CustomerByCpr("GetCustomerByCpr.graphql"),
 

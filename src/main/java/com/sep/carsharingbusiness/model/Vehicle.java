@@ -11,9 +11,11 @@ public class Vehicle {
     private int manufactureYear;
     private double mileage;
 
+    private boolean isApproved;
+
     public Customer owner;
 
-    public Vehicle(String licenseNo, String brand, String model, String type, String transmission, String fuelType, int seats, int manufactureYear, double mileage, Customer owner) {
+    public Vehicle(String licenseNo, String brand, String model, String type, String transmission, String fuelType, int seats, int manufactureYear, double mileage, boolean isApproved, Customer owner) {
         this.licenseNo = licenseNo;
         this.brand = brand;
         this.model = model;
@@ -23,6 +25,7 @@ public class Vehicle {
         this.seats = seats;
         this.manufactureYear = manufactureYear;
         this.mileage = mileage;
+        this.isApproved = isApproved;
         this.owner = owner;
     }
 
@@ -98,4 +101,11 @@ public class Vehicle {
         this.mileage = mileage;
     }
 
+    public boolean isApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(boolean approved) {
+        isApproved = approved;
+    }
 }
