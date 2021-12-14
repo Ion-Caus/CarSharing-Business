@@ -8,11 +8,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Service
 public class LeaseService implements ILeaseService {
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    private String formatDateTime(LocalDateTime dateTime) {
+        return dateTime.format(formatter) + "Z";
+    }
 
     @SessionScope
     public ArrayList<Lease> getLeasesByListing(int listingId) throws IOException, InterruptedException {
@@ -55,8 +61,8 @@ public class LeaseService implements ILeaseService {
         return GraphQLService.createObjQuery(
                 String.format(
                         GraphQLService.getQueryFromFile( MutationEnum.AddLease.get(), true),
-                        lease.getLeasedFrom(),
-                        lease.getLeasedTo(),
+                        formatDateTime(lease.getLeasedFrom()),
+                        formatDateTime(lease.getLeasedTo()),
                         lease.getTotalPrice(),
                         lease.listing.getId(),
                         lease.customer.getCpr()
@@ -72,8 +78,8 @@ public class LeaseService implements ILeaseService {
                 String.format(
                         GraphQLService.getQueryFromFile( MutationEnum.UpdateLease.get(), true),
                         lease.getId(),
-                        lease.getLeasedFrom(),
-                        lease.getLeasedTo(),
+                        formatDateTime(lease.getLeasedFrom()),
+                        formatDateTime(lease.getLeasedTo()),
                         lease.isCanceled(),
                         lease.getTotalPrice(),
                         lease.listing.getId(),

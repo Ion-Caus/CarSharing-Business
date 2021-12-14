@@ -56,7 +56,7 @@ public class LeaseLogic implements ILeaseLogic {
     }
 
     private boolean validateLease(Lease lease) throws IOException, InterruptedException {
-        // TODO: 10.12.2021 by Ion - get the leases for this listing and these dates
+        // TODO: 10.12.2021 by Ion - change the query to only get the leases for this listing and these dates (optimization)
         ArrayList<Lease> leasesForThisListing = leaseService.getLeasesByListing(lease.listing.getId());
         for (Lease l : leasesForThisListing) {
             if (l.isCanceled()) continue;

@@ -7,6 +7,8 @@ query {
     dateFrom
     dateTo
     vehicle {
+      brand
+      model
       licenseNo
     }
   }

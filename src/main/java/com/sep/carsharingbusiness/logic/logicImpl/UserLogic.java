@@ -40,14 +40,21 @@ public class UserLogic implements IUserLogic {
     }
 
     @SessionScope
-    public Customer register(Account account) throws IOException, InterruptedException, NoSuchAlgorithmException {
-        account.setPassword(
-                hash(account.getPassword())
-        );
+    public Customer register(Account account) throws IOException, InterruptedException, NoSuchAlgorithmException, IllegalArgumentException {
+        try {
+            accountService.getAccount(account.getUsername());
+            throw new IllegalArgumentException("Username is already used. Please try another one.");
+        }
+        // Did not find the any users with that username.
+        catch (InternalError ignored) {
+            account.setPassword(
+                    hash(account.getPassword())
+            );
+            customerService.addCustomer(account.customer);
+            Account registered = accountService.addAccount(account);
+            return customerService.getCustomer(registered.customer.getCpr());
+        }
 
-        customerService.addCustomer(account.customer);
-        Account registered = accountService.addAccount(account);
-        return customerService.getCustomer(registered.customer.getCpr());
     }
 
     private String hash(String password) throws NoSuchAlgorithmException {

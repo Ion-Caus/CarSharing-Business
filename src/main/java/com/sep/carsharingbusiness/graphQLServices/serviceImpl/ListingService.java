@@ -10,11 +10,16 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 @Service
 public class ListingService implements IListingService {
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    private String formatDateTime(LocalDateTime dateTime) {
+        return dateTime.format(formatter) + "Z";
+    }
 
     @SessionScope
     public ArrayList<Listing> getListings(String location, LocalDateTime dateFrom, LocalDateTime dateTo) throws IOException, InterruptedException {
@@ -22,8 +27,8 @@ public class ListingService implements IListingService {
                 String.format(
                         GraphQLService.getQueryFromFile( QueryEnum.ListingsByLocationAndDates.get(), false ),
                         location,
-                        dateFrom,
-                        dateTo
+                        formatDateTime(dateFrom),
+                        formatDateTime(dateTo)
                 ),
                 "listing",
                 Listing.class
@@ -60,10 +65,10 @@ public class ListingService implements IListingService {
                 String.format(
                         GraphQLService.getQueryFromFile( MutationEnum.AddListing.get(), true),
                         listing.getPrice(),
-                        listing.getListedDate(),
+                        formatDateTime(listing.getListedDate()),
                         listing.getLocation(),
-                        listing.getDateFrom(),
-                        listing.getDateTo(),
+                        formatDateTime(listing.getDateFrom()),
+                        formatDateTime(listing.getDateTo()),
                         listing.vehicle.getLicenseNo()
                 ),
                 "addListing",
@@ -79,8 +84,8 @@ public class ListingService implements IListingService {
                         listing.getId(),
                         listing.getPrice(),
                         listing.getLocation(),
-                        listing.getDateFrom(),
-                        listing.getDateTo(),
+                        formatDateTime(listing.getDateFrom()),
+                        formatDateTime(listing.getDateTo()),
                         listing.vehicle.getLicenseNo()
                 ),
                 "updateListing",
