@@ -8,5 +8,5 @@ import java.security.NoSuchAlgorithmException;
 
 public interface IUserLogic {
     Customer login(Account account) throws IOException, InterruptedException, IllegalAccessException, NoSuchAlgorithmException;
-    Customer register(Account account) throws IOException, InterruptedException, NoSuchAlgorithmException;
+    Customer register(Account account) throws IOException, InterruptedException, NoSuchAlgorithmException, IllegalArgumentException;
 }
