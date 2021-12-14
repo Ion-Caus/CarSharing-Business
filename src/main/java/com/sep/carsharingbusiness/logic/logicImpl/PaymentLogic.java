@@ -17,7 +17,7 @@ public class PaymentLogic implements IPaymentLogic {
 
     @SessionScope
     public boolean verifyPayment(String paymentID) throws InterruptedException {
-        Thread.sleep(3000);
+        Thread.sleep(4500);
         return true;
     }
 }

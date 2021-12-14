@@ -1,7 +1,9 @@
 package com.sep.carsharingbusiness.logic.logicImpl;
 
+import com.sep.carsharingbusiness.graphQLServices.ILeaseService;
 import com.sep.carsharingbusiness.graphQLServices.IListingService;
 import com.sep.carsharingbusiness.logic.IListingLogic;
+import com.sep.carsharingbusiness.model.Lease;
 import com.sep.carsharingbusiness.model.Listing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,16 +17,44 @@ import java.util.ArrayList;
 public class ListingLogic implements IListingLogic {
 
     private final IListingService listingService;
+    private final ILeaseService leaseService;
 
     @Autowired
-    public ListingLogic(IListingService listingService) {
+    public ListingLogic(IListingService listingService, ILeaseService leaseService) {
         this.listingService = listingService;
+        this.leaseService = leaseService;
+    }
+
+    private boolean isListingAvailable(LocalDateTime dateFrom, LocalDateTime dateTo, ArrayList<Lease> leasesForThisListing) {
+        for (Lease lease : leasesForThisListing) {
+            if (lease.isCanceled()) continue;
+            if (
+                    !( dateTo.isBefore(lease.getLeasedFrom())
+                                    || dateFrom.isAfter(lease.getLeasedTo()) )
+            ) {
+                // if the intervals are overlapping
+                return false;
+            }
+        }
+        return true;
     }
 
     @SessionScope
     public ArrayList<Listing> getListings(String location, LocalDateTime dateFrom, LocalDateTime dateTo) throws IOException, InterruptedException {
-        // TODO: 29.11.2021 by Ion - check is vehicle is not rented on this interval 
-        return listingService.getListings(location, dateFrom, dateTo);
+        ArrayList<Listing> listings = listingService.getListings(location, dateFrom, dateTo);
+
+        listings.removeIf( (listing) -> {
+            ArrayList<Lease> leasesForAListing = null;
+            try {
+               leasesForAListing  = leaseService.getLeasesByListing(listing.getId());
+            }
+            catch (IOException | InterruptedException ignored) {}
+
+            if (leasesForAListing == null) return false;
+            return !isListingAvailable(dateFrom, dateTo, leasesForAListing);
+        });
+
+        return listings;
     }
 
     @SessionScope
@@ -39,11 +69,11 @@ public class ListingLogic implements IListingLogic {
 
     @SessionScope
     public Listing addListing(Listing listing) throws IOException, InterruptedException, IllegalArgumentException {
-        if(listing.getDateTo().isBefore(listing.getDateFrom())) {
+        if (listing.getDateTo().isBefore(listing.getDateFrom())) {
             throw new IllegalArgumentException("Listing's 'date to' cannot be before its 'date from'");
 
         }
-        ArrayList<Listing> listings =  listingService.getListingsByVehicle(listing.vehicle.getLicenseNo());
+        ArrayList<Listing> listings = listingService.getListingsByVehicle(listing.vehicle.getLicenseNo());
         if (!listings.isEmpty()) {
             throw new IllegalArgumentException("A listing is already created for the vehicle with licenseNo " + listing.vehicle.getLicenseNo());
         }
