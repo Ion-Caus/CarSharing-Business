@@ -23,7 +23,7 @@ import java.util.List;
 
 public class GraphQLService {
 
-    private static final String GRAPHQL_URI = "http://localhost:5004/graphql?=";
+    private static final String GRAPHQL_URI = "https://localhost:8332/graphql?=";
     private static final Gson gson =
             new GsonBuilder()
                     .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeJsonAdapter())
