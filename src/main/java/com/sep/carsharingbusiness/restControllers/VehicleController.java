@@ -91,7 +91,7 @@ public class VehicleController {
             Log.addLog("|restControllers/VehicleController.updateVehicle| : Reply :  " + result);
             return result;
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | InternalError e) {
             Log.addLog("|restControllers/VehicleController.updateVehicle| : Error : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
         }
